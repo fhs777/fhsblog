@@ -35,11 +35,12 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin: 4vh 0 2vh 8vw;
-    min-height: 20vh;
-    padding: 24px;
+    margin: 4vh 0 0vh 8vw;
+    min-height: 25vh;
+    padding: 20px 20px 12px;
     background: #ffffff;
     box-shadow: 0px 0px 15px #b3b3b3;
+    border-radius: 7px;
 }
 
 .card p {
@@ -58,7 +59,7 @@ export default {
 
 .card .footer {
     color: rgb(190, 190, 190);
-    margin-top: 0.5rem;
+    margin-top: 1.8rem;
 }
 
 span {
