@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import frame from '../views/frame.vue'
+
 
 const routes = [
   {
     path: '/',
     name: 'frame',
-    component: frame,
+    component: () => import(/* webpackChunkName: "about" */ '../views/frame.vue'),
     children: [
       {
         path: 'home',

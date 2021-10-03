@@ -6,12 +6,80 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+
+
+      #loading-container {
+          width: 400px;
+          margin: 10vh auto 0 auto;
+          text-align: center;
+          font-weight: bold;
+          font-size: 1.5rem;
+      }
+    
+      .strip-loading {
+          display: flex;
+          justify-content: center;
+          width: 200px;
+          height: 200px;
+          list-style-type: none;
+      
+    }
+    
+      .inline-container {
+          margin-top: 30px;
+          display: inline-block;
+          text-align: center;
+      }
+    
+      .strip-loading li {
+          --time: calc((var(--line-index) - 1) * 200ms);
+          border-radius: 3px;
+          width: 6px;
+          height: 30px;
+          background-color: #33cc99;
+          animation: beat 1.5s ease-in-out var(--time) infinite;
+          list-style-type: none;
+      }
+    
+      li {
+          margin-left: 2.5px;
+          margin-right: 2.5px;
+      }
+    
+      @keyframes beat {
+          0%,
+          100% {
+              transform: scaleY(1);
+          }
+          50% {
+              transform: scaleY(.5);
+          }
+      }
+      
+    
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    <div id="loading-container">
+      <span>页面加载中</span><br>
+      <div class="inline-container">
+          <div class="strip-loading"> 
+              <li style="--line-index: 1;"></li>
+              <li style="--line-index: 2;"></li>
+              <li style="--line-index: 3;"></li>
+              <li style="--line-index: 4;"></li>
+              <li style="--line-index: 5;"></li>
+              <li style="--line-index: 6;"></li>
+          </div>
+      </div>
+  </div>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 </html>
+
+

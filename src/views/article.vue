@@ -104,6 +104,24 @@ export default defineComponent({
         console.log(this.activeAnchor)
     },
 
+    throttle(fn, delay) {
+        let last;
+        return function() {
+            let that = this;
+            let _args = arguments;
+            let now = +new Date()
+            if(last && last + delay > now ) {
+                return
+            }
+            else {
+                last = now
+                fn.apply(that,_args)
+            }
+        }
+    },
+
+    
+
     createValine() {
       const Valine = require('valine');
 
@@ -122,11 +140,8 @@ export default defineComponent({
     },
     
   },
-  updated() {
-    
-  },
   mounted() {
-     window.addEventListener('scroll', this.dataScroll);
+     window.addEventListener('scroll', this.throttle(this.dataScroll,100));
      this.createValine()
   },
   watch: {
@@ -172,6 +187,10 @@ export default defineComponent({
               console.log(error);
             })
   },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.click, false)
+  }
 
   
 });
