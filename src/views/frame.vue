@@ -1,7 +1,10 @@
 <template>
 
   <a-layout :style="{  minHeight: '100vh' }" >
-    <a-layout-header class="header">
+    <transition name="header">
+    <a-layout-header 
+    class="header"
+    v-if="show">
     <div class="logo"></div>
       <a-menu
         mode="horizontal"
@@ -22,6 +25,7 @@
     />
   </div>
     </a-layout-header>
+    </transition>
    <router-view></router-view>
 
     <a-layout-footer :style="{ textAlign: 'center' }">
@@ -37,7 +41,10 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   data() {
     return {
-      contents: []
+      contents: [],
+      head_show: 'fixed',
+      scroll_top: 0,
+      show: true,
     }
   },
 
@@ -47,6 +54,17 @@ export default defineComponent({
       console.log(e.key)
       this.$router.push('/'+e.key)
     },
+    headershow() {
+      let scrolltop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      let scroll = scrolltop - this.scroll_top
+      this.scroll_top = scrolltop
+      if(scroll < 0) {
+        this.show = true
+      }
+      else {
+        this.show = false
+      }
+    } 
 
   },
   setup() {
@@ -58,6 +76,10 @@ export default defineComponent({
   },
   created() {
     this.$store.dispatch('initialize_category')
+  },
+
+  mounted() {
+     window.addEventListener('scroll', this.headershow);
   }
 
  
@@ -66,10 +88,26 @@ export default defineComponent({
 <style scoped>
 
 .header {
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.7);
   position: fixed;
   z-index: 4;
   width: 100%;
+  animation: ease-in 1s;
+  z-index: 100;
+}
+
+.header-enter-active {
+  transition:  0.5s ease;
+  opacity:0.7
+}
+
+.header-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.header-enter-from,
+.header-leave-to {
+  opacity: 0;
 }
 
 .container {
@@ -83,6 +121,7 @@ export default defineComponent({
   float: right;
   line-height: 64px;
   background-color: inherit;
+  
 }
 
 

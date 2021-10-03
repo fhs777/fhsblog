@@ -27,7 +27,7 @@
           :class="{ list: this.activeAnchor == ('anchor'+index) }"
           @click="handleAnchorClick(anchor)"
         >
-          <a style="cursor: pointer">{{ anchor.title }} {{index}}</a>
+          <a style="cursor: pointer">{{ anchor.title }}</a>
         </div>
       </div>
 </a-affix>
@@ -81,7 +81,7 @@ export default defineComponent({
       const { lineIndex } = anchor;
 
       const heading = preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
-      console.log(heading)
+      console.log('heading',heading)
 
       if (heading) {
         preview.scrollToTarget({
@@ -148,7 +148,9 @@ export default defineComponent({
             console.log(res.data)
             this.$nextTick(function(){
               const anchors = this.$refs.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
+              //console.log(anchors)
               const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
+              //console.log(titles)
               if (!titles.length) {
                 this.anchors = [];
                 return;
@@ -188,11 +190,6 @@ export default defineComponent({
 
 
 
-
-
-
-
-
 .sider {
   margin-top: 4vh;
   margin-right: 12vw;
@@ -213,9 +210,15 @@ export default defineComponent({
   box-shadow: 0px 0px 15px #b3b3b3;
 }
 
+.anchor div {
+  line-height: 1.5rem;
+}
+
 .anchor a {
-  color: inherit;
+  color: inherit; 
   border-left: 2px solid #787c80;
+  font-size: 0.9rem;
+  font-family: 'Noto Serif CJK TC',serif;
   border-color: inherit;
   padding-left: 3px;
   margin-left: 1rem;
@@ -226,10 +229,7 @@ export default defineComponent({
   
 }
 
-
-
-
- .logo {
+.logo {
   width: 120px;
   height: 31px;
   background: rgb(252, 11, 11);
