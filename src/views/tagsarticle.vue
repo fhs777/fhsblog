@@ -22,7 +22,6 @@
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
-
 const card = defineAsyncComponent(() => import('../components/card.vue'))
 const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 export default defineComponent({
@@ -42,6 +41,7 @@ export default defineComponent({
   methods: {
     async getcontent() {
       const articles = await getarticles();
+      console.log(articles)
       let tag = (this.$route.path + '').split('/')[2];
       this.contents =[];
       let articlesBycate = articles.data.filter((item) => {

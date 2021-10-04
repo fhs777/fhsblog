@@ -9,43 +9,43 @@ const routes = [
     children: [
       {
         path: 'home',
-        component: () => import(/* webpackChunkName: "about" */ '../views/home.vue')
+        component: () => import(/* webpackChunkName: "home" */ '../views/home.vue')
       },
       {
         path: 'technology',
-        component: () => import(/* webpackChunkName: "about" */ '../views/technology.vue')
+        component: () => import(/* webpackChunkName: "about1" */ '../views/technology.vue')
       },
       {
         path: 'daily',
-        component: () => import(/* webpackChunkName: "about" */ '../views/daily.vue')
+        component: () => import(/* webpackChunkName: "about1" */ '../views/daily.vue')
       },
       {
         path: 'time_line',
-        component: () => import(/* webpackChunkName: "about" */ '../views/time_line.vue')
+        component: () => import(/* webpackChunkName: "time" */ '../views/time_line.vue')
       },
       {
         path: 'article',
-        component: () => import(/* webpackChunkName: "about" */ '../views/article.vue')
+        component: () => import(/* webpackChunkName: "articlies" */ '../views/article.vue')
       },
       {
         path: 'maodian',
-        component: () => import(/* webpackChunkName: "about" */ '../views/maodian.vue')
+        component: () => import(/* webpackChunkName: "about1" */ '../views/maodian.vue')
       },
       {
         path: 'category',
-        component: () => import(/* webpackChunkName: "about" */ '../views/category.vue'),
+        component: () => import(/* webpackChunkName: "cate" */ '../views/category.vue'),
       },
       {
         path:'category/:cate',
-        component: () => import(/* webpackChunkName: "about" */ '../views/catearticle.vue'),
+        component: () => import(/* webpackChunkName: "cate" */ '../views/catearticle.vue'),
       },
       {
         path:'tags',
-        component: () => import(/* webpackChunkName: "about" */ '../views/tags.vue'),
+        component: () => import(/* webpackChunkName: "tags" */ '../views/tags.vue'),
       },
       {
         path:'tags/:cate',
-        component: () => import ('../views/tagsarticle.vue'),
+        component: () => import (/* webpackChunkName: "tags" */'../views/tagsarticle.vue'),
       }
     ]
   },
