@@ -19,11 +19,11 @@
 
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
-import  card  from '../components/card.vue'
-import  personalInfo  from '../components/personalInfo.vue'
+const card = defineAsyncComponent(() => import('../components/card.vue'))
+const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 export default defineComponent({
   data() {
     return {

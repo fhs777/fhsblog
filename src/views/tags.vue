@@ -24,7 +24,8 @@
 
 <script>
 
-import  personalInfo  from '../components/personalInfo.vue'
+import { defineAsyncComponent } from 'vue';
+const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 
 
 export default ({

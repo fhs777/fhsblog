@@ -38,10 +38,13 @@
 
 </template>
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent,defineAsyncComponent } from 'vue';
 import { getarticle } from '../api/api'
-import  personalInfo  from '../components/personalInfo.vue'
-import  articleinfo  from '../components/articleinfo.vue'
+
+const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
+const articleinfo = defineAsyncComponent(() => import('../components/articleinfo.vue'))
+//import  personalInfo  from '../components/personalInfo.vue'
+//import  articleinfo  from '../components/articleinfo.vue'
 
 
 export default defineComponent({

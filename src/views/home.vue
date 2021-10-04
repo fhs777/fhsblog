@@ -32,8 +32,11 @@
 import { defineComponent, ref } from 'vue';
 import { getarticles } from '../api/api'
 
-import  card  from '../components/card.vue'
-import  personalInfo  from '../components/personalInfo.vue'
+import { defineAsyncComponent } from 'vue'
+const card = defineAsyncComponent(() => import('../components/card.vue'))
+const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
+//import  card  from '../components/card.vue'
+//import  personalInfo  from '../components/personalInfo.vue'
 export default defineComponent({
   data() {
     return {
@@ -45,7 +48,10 @@ export default defineComponent({
       totalArts: 0,
     }
   },
-  components: { card, personalInfo },
+  components: { 
+      card,
+      personalInfo,
+    },
   setup() {
      
     return {

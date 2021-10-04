@@ -64,20 +64,22 @@
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="loading-container">
-      <span>页面加载中</span><br>
-      <div class="inline-container">
-          <div class="strip-loading"> 
-              <li style="--line-index: 1;"></li>
-              <li style="--line-index: 2;"></li>
-              <li style="--line-index: 3;"></li>
-              <li style="--line-index: 4;"></li>
-              <li style="--line-index: 5;"></li>
-              <li style="--line-index: 6;"></li>
-          </div>
-      </div>
-  </div>
-    <div id="app"></div>
+    
+    <div id="app">
+      <div id="loading-container">
+        <span>页面加载中</span><br>
+        <div class="inline-container">
+            <div class="strip-loading"> 
+                <li style="--line-index: 1;"></li>
+                <li style="--line-index: 2;"></li>
+                <li style="--line-index: 3;"></li>
+                <li style="--line-index: 4;"></li>
+                <li style="--line-index: 5;"></li>
+                <li style="--line-index: 6;"></li>
+            </div>
+        </div>
+    </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

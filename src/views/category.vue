@@ -25,7 +25,9 @@
 
 <script>
 
-import  personalInfo  from '../components/personalInfo.vue'
+import { defineAsyncComponent } from 'vue';
+const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
+
 import {
   FolderAddTwoTone,
 } from '@ant-design/icons-vue';

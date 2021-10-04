@@ -2,18 +2,7 @@
   <router-view/>
 </template>
 
-<script>
 
-
-export default ({
-  created() {
-    let loading = document.getElementById('loading-container')
-    if(loading) {
-      document.body.removeChild(loading)
-    }
-  },
-})
-</script>
 
 
 
