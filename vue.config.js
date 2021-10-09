@@ -10,7 +10,12 @@ module.exports = {
     // 我用的only，打包后小些
     runtimeCompiler: false,
     productionSourceMap: true, // 不需要生产环境的设置false可以减小dist文件大小，加速构建
+    chainWebpack: config => {
+      // 移除 prefetch 插件
+      config.plugins.delete('prefetch')
+    }
   
+ 
     /*devServer: {
       open: false,  // npm run serve后自动打开页面
       host: '0.0.0.0',  // 匹配本机IP地址(默认是0.0.0.0)
