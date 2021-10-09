@@ -11,7 +11,7 @@ module.exports = {
     runtimeCompiler: false,
     productionSourceMap: true, // 不需要生产环境的设置false可以减小dist文件大小，加速构建
   
-    devServer: {
+    /*devServer: {
       open: false,  // npm run serve后自动打开页面
       host: '0.0.0.0',  // 匹配本机IP地址(默认是0.0.0.0)
       port: 8080, // 开发服务器运行端口号
@@ -19,19 +19,19 @@ module.exports = {
  
         '/api': {
          
-        target: 'http://http://120.27.150.44/:3000;',
-         
-        changeOrigin: true,
-         
-        pathRewrite: {
-         
-        '^/api': '' // /prod-api 替换为空
-         
-        }
+            target: 'http://120.27.150.44:3000;',
+            
+            changeOrigin: true,
+            
+            pathRewrite: {
+            
+            '^/api': '/api' // /prod-api 替换为空
+            
+            }
          
         },
          
         }
         
-    },
+    },*/
   }

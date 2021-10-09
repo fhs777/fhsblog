@@ -29,10 +29,10 @@
 
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
-import { defineAsyncComponent } from 'vue'
+
 const card = defineAsyncComponent(() => import('../components/card.vue'))
 const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 //import  card  from '../components/card.vue'
