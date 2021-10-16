@@ -62,6 +62,8 @@ export default defineComponent({
       anchors: [],
       activeAnchor: '',
       scroll: '',
+      imgList: [],
+      imgcount: 0, //记录图片懒加载个数
     }
   },
   setup() {
@@ -141,9 +143,29 @@ export default defineComponent({
       });
       this.valineRefresh = false
     },
+
+  
+
+    imgLazyLoad() {
+      let deleteIndex = []
+      this.imgList.forEach((item, index) => {
+      //console.log(s.top)
+        if((item.offsetTop - 480) < document.documentElement.scrollTop || document.body.scrollTop) {
+          item.src = item.dataset.src
+          console.log(item.dataset.src)
+          deleteIndex.push(index)
+          this.imgcount--;
+          if(this.imgcount == 0) {
+            document.removeEventListener('scroll', this.imgLazyLoad)
+            }
+          }
+          })
+          this.imgList = this.imgList.filter((item, index) => !deleteIndex.includes(index))
+        }
     
   },
   mounted() {
+    document.addEventListener('scroll', this.throttle(this.imgLazyLoad,100));
      window.addEventListener('scroll', this.throttle(this.dataScroll,100));
      this.createValine()
   },
@@ -165,6 +187,9 @@ export default defineComponent({
 
             console.log(res.data)
             this.$nextTick(function(){
+              this.imgList = [...this.$refs.preview.$el.querySelectorAll('img')].slice(4);
+              this.imgcount = this.imgList.length
+              //console.log(this.imgList)
               const anchors = this.$refs.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
               //console.log(anchors)
               const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());

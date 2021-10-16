@@ -13,10 +13,10 @@ module.exports = {
     chainWebpack: config => {
       // 移除 prefetch 插件
       config.plugins.delete('prefetch')
-    }
+    },
   
- 
-    /*devServer: {
+ //打包之前注释掉下面的 webpack配置
+    devServer: {
       open: false,  // npm run serve后自动打开页面
       host: '0.0.0.0',  // 匹配本机IP地址(默认是0.0.0.0)
       port: 8080, // 开发服务器运行端口号
@@ -24,10 +24,12 @@ module.exports = {
  
         '/api': {
          
-            target: 'http://120.27.150.44:3000;',
+            target: 'http://120.27.150.44:3000',
             
             changeOrigin: true,
-            
+
+            ws: true,
+
             pathRewrite: {
             
             '^/api': '/api' // /prod-api 替换为空
@@ -38,5 +40,6 @@ module.exports = {
          
         }
         
-    },*/
+    },
+    
   }
