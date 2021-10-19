@@ -6,7 +6,7 @@
     class="header"
     v-if="show">
     <div class="logo"></div>
-      <a-menu
+     <!-- <a-menu
         mode="horizontal"
         v-model:selectedKeys="selectedKeys"
         @click="handleClick"
@@ -16,6 +16,16 @@
         <a-menu-item key="daily">随笔</a-menu-item>
         <a-menu-item key="time_line">归档</a-menu-item>
       </a-menu>
+      -->
+      <div class="menu">
+        <span @click="handleClick('home')">主页</span>
+        <span @click="handleClick('technology')">技术</span>
+        <span @click="handleClick('daily')">随笔</span>
+        <span @click="handleClick('time_line')">归档</span>
+        <span class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
+        <span class="s_svg"><img style="height: 5vh" src="/menu.svg"></span>
+      </div>
+      <!--
   <div class="container">
       <a-input-search
       v-model:value="value"
@@ -24,6 +34,7 @@
       @search="onSearch"
     />
   </div>
+  -->
     </a-layout-header>
     </transition>
    <router-view></router-view>
@@ -51,8 +62,7 @@ export default defineComponent({
   methods: {
 
     handleClick(e) {
-      console.log(e.key)
-      this.$router.push('/'+e.key)
+      this.$router.push('/'+e)
     },
     headershow() {
       let scrolltop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
@@ -91,6 +101,7 @@ export default defineComponent({
   background-color: rgba(255, 255, 255, 0.7);
   position: fixed;
   z-index: 4;
+  height: 10vh;
   width: 100%;
   animation: ease-in 1s;
   z-index: 100;
@@ -118,29 +129,59 @@ export default defineComponent({
 
 }
 .menu {
+  font-size: 0.95rem;
   float: right;
-  line-height: 64px;
-  background-color: inherit;
+  position: relative;
+  line-height: 10vh;
+  
+}
+
+.menu > span {
+  display: inline-block;
+  height: 10vh - 2px;
+  margin: 0 1vw 0 1vw;
+  cursor: pointer;
+}
+
+.menu > span:hover {
+  color: rgb(19, 93, 252);
+  border-bottom: 2px solid rgb(19, 93, 252);
+}
+
+.menu > .s_svg {
+  
+  display: none;
   
 }
 
 
-.sider {
-  margin-top: 4vh;
-  margin-right: 12vw;
-  color: rgb(0, 0, 0);
-  min-height: 70vh;
-  line-height: 120px;
-  background: #ffffff;
-  box-shadow: 0px 0px 15px #b3b3b3;
+@media screen and (max-width: 800px) {
+    .menu > span {
+      display: none;
+    }
+    .menu > span:hover {
+      color: rgb(19, 93, 252);
+      border-bottom: 2px solid rgb(19, 93, 252);
+  }
+
+    .menu > .s_svg {
+      display: unset;
+      display: inline-block;
+      height: 10vh - 2px;
+      margin: 0 1vw 0 1vw;
+      cursor: pointer;
+
+    }
 }
+
+
 
 
  .logo {
   width: 120px;
   height: 31px;
   background: rgb(252, 11, 11);
-  margin: 16px 24px 16px 0;
+  margin: 16px 0 16px 0;
   float: left;
 }
 

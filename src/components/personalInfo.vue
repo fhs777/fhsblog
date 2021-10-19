@@ -1,21 +1,25 @@
 <template>
+<div class="personal_info">
    <img class="imgborder" src='/face.jpg' width="200">
-        <p class="name">魏择齐</p>
-        <div class="headcontainer">
+    <p class="name">魏择齐</p>
+    <div class="headcontainer">
         <span class="headline">文章</span>
         <br/>
         <span class="length">{{ this.$store.state.timeline.length }}</span>
-        </div>
-        <div class="headcontainer"  @click="toCategory()">
+    </div>
+
+    <div class="headcontainer"  @click="toCategory()">
         <span class="headline">分类</span>
         <br/>
         <span class="length">{{ this.$store.state.category.length }}</span>
-        </div>
-         <div class="headcontainer" @click="toTags()">
+    </div>
+
+    <div class="headcontainer" @click="toTags()">
         <span class="headline">标签</span>
         <br/>
         <span class="length"> {{ Object.keys(this.$store.state.tags).length }} </span>
-        </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -41,9 +45,17 @@ export default {
 
 <style scoped>
 
+
+.personal_info {
+  color: rgb(0, 0, 0);
+  min-height: 4vh;
+  line-height: 2rem;
+  background: #ffffff;
+  box-shadow: 0px 0px 15px #b3b3b3;
+}
 .imgborder {
   margin-top: 4vh;
-  width: 100px;
+  width: 95px;
   border-radius: 50%;
 }
 

@@ -1,8 +1,25 @@
 <template>
 
-  <a-layout>
+  <div class="main_container">
 
-    <a-layout-content :style="{ padding: '0 25px 0 60px', marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}">
+    <div class="laycontent"> 
+     <card 
+        v-for="content in contentspage"
+        :key="content.index"
+        :content="content"></card>
+        
+      <a-pagination 
+        :style="{ marginTop: '30px'}"
+        v-model:current="currentPage" 
+        :total="totalArts" 
+        :page-size="5"
+        @change="onPagechange"></a-pagination>
+    </div>
+    
+    <!--
+       <a-layout-content 
+        :style="{ padding: '0 25px 0 60px', marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}" 
+        :class="laycontent">
       
      <card 
         v-for="content in contentspage"
@@ -15,17 +32,27 @@
         :total="totalArts" 
         :page-size="5"
         @change="onPagechange"></a-pagination>
-      
-     
     </a-layout-content>
+     -->
+
+     
+
+      <div class="sider">
+       <personalInfo> </personalInfo>
+      </div>
+
+
+    
+
+   <!--
     <a-layout-sider width="29vw" :style="{ marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}">
       <div class="sider">
        <personalInfo> </personalInfo>
-
       </div>
-    </a-layout-sider>
+    </a-layout-sider> 
+    -->
 
-  </a-layout>
+  </div>
 
 </template>
 <script>
@@ -100,23 +127,38 @@ export default defineComponent({
 <style scoped>
 
 
+.main_container {
+  display: flex;
+  flex-wrap: nowrap;
 
+}
 
-
-
-
-.sider {
-  margin-top: 4vh;
-  margin-right: 12vw;
-  color: rgb(0, 0, 0);
-  min-height: 60vh;
-  line-height: 40px;
-  background: #ffffff;
-  box-shadow: 0px 0px 15px #b3b3b3;
+.laycontent {
+  flex: 0 5 80vw;
+  width: 100%;
+  padding: 0 4vw 0 2vw;
+  margin-top: 8vh ;
+  min-height: 100%;
+  background: rgb(244, 244, 244)
 }
 
 
 
+.sider {
+  flex: 0 3 18vw;
+  padding-top: 12vh;
+  margin-right: 6vw;
+  color: rgb(0, 0, 0);
+  min-height: 60vh;
+  line-height: 3vh;
+  background-color: rgb(244, 244, 244);
+}
+
+@media screen and (max-width: 800px) {
+    .sider {
+      background-color: rgb(216, 21, 21);
+    }
+}
 
 
 
