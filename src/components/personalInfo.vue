@@ -65,6 +65,8 @@ export default {
   font-size: 1rem;
 }
 
+
+
 .headcontainer {
   display: inline-block;
   cursor: pointer;
@@ -72,6 +74,41 @@ export default {
   font-weight: 600;
   margin: 0 6%;
   color: #666666;
+}
+
+
+
+@media screen and (max-width: 800px) {
+
+   .imgborder {
+      width: 105px;
+    }
+
+    .personal_info {
+      box-shadow: none;
+    }
+
+    .name {
+      visibility: hidden;
+    }
+
+    .laycontent {
+      flex-basis: 100vw;
+      padding: 0 8vw 0 2vw;
+      
+    }
+
+    .headcontainer {
+      font-weight: 400;
+      margin: -13% 11% 0;
+      color: #000000;
+    }
+
+    .length {
+      font-size: 1.05rem;
+    }
+
+   
 }
 
 

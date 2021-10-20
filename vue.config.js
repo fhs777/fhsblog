@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 module.exports = {
     // 公共路径(必须有的)
     publicPath: "./",
@@ -13,7 +14,12 @@ module.exports = {
     chainWebpack: config => {
       // 移除 prefetch 插件
       config.plugins.delete('prefetch')
+      config.plugin('ignore')
+      .use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)); //忽略/moment/locale下的所有文件
     },
+
+
+
   
  //打包之前注释掉下面的 webpack配置
     devServer: {

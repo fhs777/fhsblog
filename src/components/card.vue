@@ -16,7 +16,7 @@ export default {
     methods: {
         readarticle(id) {
             console.log(id);
-            this.$router.push({path: '/article',  query: { articleid: id } })
+            this.$router.push({path: '/home/article',  query: { articleid: id } })
             
         }
     },

@@ -3,7 +3,8 @@
   <div class="main_container">
 
     <div class="laycontent"> 
-     <card 
+      <router-view></router-view>
+     <!--<card 
         v-for="content in contentspage"
         :key="content.index"
         :content="content"></card>
@@ -13,7 +14,9 @@
         v-model:current="currentPage" 
         :total="totalArts" 
         :page-size="5"
-        @change="onPagechange"></a-pagination>
+        @change="onPagechange">
+      </a-pagination>
+      -->
     </div>
     
     <!--
@@ -39,6 +42,10 @@
 
       <div class="sider">
        <personalInfo> </personalInfo>
+      </div>
+
+      <div class="drawer">
+        <personalInfo> </personalInfo>
       </div>
 
 
@@ -154,9 +161,24 @@ export default defineComponent({
   background-color: rgb(244, 244, 244);
 }
 
+.drawer {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 2px solid red;
+}
+
 @media screen and (max-width: 800px) {
     .sider {
-      background-color: rgb(216, 21, 21);
+      display: none;
+    }
+
+    .laycontent {
+      flex-basis: 100vw;
+      padding: 0 8vw 0 2vw;
+      
     }
 }
 

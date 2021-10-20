@@ -5,19 +5,30 @@ const routes = [
   {
     path: '/',
     name: 'frame',
-    component: () => import(/* webpackChunkName: "about" */ '../views/frame.vue'),
+    component: () => import(/* webpackChunkName: "frame" */ '../views/frame.vue'),
     children: [
       {
         path: 'home',
-        component: () => import(/* webpackChunkName: "home" */ '../views/home.vue')
+        component: () => import(/* webpackChunkName: "home" */ '../views/home.vue'),
+        children: [
+          {
+            path: '',
+            component: () => import(/* webpackChunkName: "card_list" */ '../views/card_list.vue')
+          },
+          {
+            path: 'article',
+            component: () => import(/* webpackChunkName: "articlie" */ '../views/article.vue')
+          },
+        ]
       },
+      
       {
         path: 'technology',
-        component: () => import(/* webpackChunkName: "about1" */ '../views/technology.vue')
+        component: () => import(/* webpackChunkName: "tech" */ '../views/technology.vue')
       },
       {
         path: 'daily',
-        component: () => import(/* webpackChunkName: "about1" */ '../views/daily.vue')
+        component: () => import(/* webpackChunkName: "daily" */ '../views/daily.vue')
       },
       {
         path: 'time_line',
@@ -25,11 +36,11 @@ const routes = [
       },
       {
         path: 'article',
-        component: () => import(/* webpackChunkName: "articlies" */ '../views/article.vue')
+        component: () => import(/* webpackChunkName: "articlie" */ '../views/article.vue')
       },
       {
         path: 'maodian',
-        component: () => import(/* webpackChunkName: "about1" */ '../views/maodian.vue')
+        component: () => import(/* webpackChunkName: "maodian" */ '../views/maodian.vue')
       },
       {
         path: 'category',
@@ -37,7 +48,7 @@ const routes = [
       },
       {
         path:'category/:cate',
-        component: () => import(/* webpackChunkName: "cate" */ '../views/catearticle.vue'),
+        component: () => import(/* webpackChunkName: "cate_art" */ '../views/catearticle.vue'),
       },
       {
         path:'tags',
@@ -45,7 +56,7 @@ const routes = [
       },
       {
         path:'tags/:cate',
-        component: () => import (/* webpackChunkName: "tags" */'../views/tagsarticle.vue'),
+        component: () => import (/* webpackChunkName: "tags_cate" */'../views/tagsarticle.vue'),
       }
     ]
   },

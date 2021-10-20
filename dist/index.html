@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="favicon.ico"><title>blog2</title><style>#loading-container {
+          width: 400px;
+          margin: 10vh auto 0 auto;
+          text-align: center;
+          font-weight: bold;
+          font-size: 1.5rem;
+      }
+    
+      .strip-loading {
+          display: flex;
+          justify-content: center;
+          width: 200px;
+          height: 200px;
+          list-style-type: none;
+      
+    }
+    
+      .inline-container {
+          margin-top: 30px;
+          display: inline-block;
+          text-align: center;
+      }
+    
+      .strip-loading li {
+          --time: calc((var(--line-index) - 1) * 200ms);
+          border-radius: 3px;
+          width: 6px;
+          height: 30px;
+          background-color: #33cc99;
+          animation: beat 1.5s ease-in-out var(--time) infinite;
+          list-style-type: none;
+      }
+    
+      li {
+          margin-left: 2.5px;
+          margin-right: 2.5px;
+      }
+    
+      @keyframes beat {
+          0%,
+          100% {
+              transform: scaleY(1);
+          }
+          50% {
+              transform: scaleY(.5);
+          }
+      }</style><link href="static/css/app.5c9713c3.css" rel="preload" as="style"><link href="static/css/chunk-vendors.ae9ac1b7.css" rel="preload" as="style"><link href="static/js/app.7bf77c85.js" rel="preload" as="script"><link href="static/js/chunk-vendors.1f4cab62.js" rel="preload" as="script"><link href="static/css/chunk-vendors.ae9ac1b7.css" rel="stylesheet"><link href="static/css/app.5c9713c3.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but blog2 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"><div id="loading-container"><span>页面加载中</span><br><div class="inline-container"><div class="strip-loading"><li style="--line-index: 1;"></li><li style="--line-index: 2;"></li><li style="--line-index: 3;"></li><li style="--line-index: 4;"></li><li style="--line-index: 5;"></li><li style="--line-index: 6;"></li></div></div></div></div><script src="static/js/chunk-vendors.1f4cab62.js"></script><script src="static/js/app.7bf77c85.js"></script></body></html>
