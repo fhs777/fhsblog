@@ -16,7 +16,7 @@ export default {
     methods: {
         readarticle(id) {
             console.log(id);
-            this.$router.push({path: '/home/article',  query: { articleid: id } })
+            this.$router.push({path: '/article',  query: { articleid: id } })
             
         }
     },
@@ -39,8 +39,10 @@ export default {
     min-height: 25vh;
     padding: 20px 20px 12px;
     background: #ffffff;
+    border: 1px solid blue;
     box-shadow: 0px 0px 15px #b3b3b3;
     border-radius: 7px;
+    
 }
 
 .card p {

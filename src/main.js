@@ -25,7 +25,16 @@ VMdPreview.use(githubTheme, {
   Hljs: hljs,
 });
 
+
+
 const Vue = createApp(App)
+
+Vue.config.errorHandler = (error, vm, info) => {
+  console.info('error_info!!!!!!!!!!!!!!!!!!!!!!!!!')
+  console.info(error);
+  console.info(vm);
+  console.info(info);
+};
 Vue.use(Menu).use(Pagination).use(Layout).use(Input).use(Affix).use(List)
 
 Vue.use(VMdPreview).use(store).use(router).mount('#app')

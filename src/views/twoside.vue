@@ -3,7 +3,9 @@
   <div class="main_container">
 
     <div class="laycontent"> 
+
       <router-view></router-view>
+
      <!--<card 
         v-for="content in contentspage"
         :key="content.index"
@@ -67,7 +69,9 @@ import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
 
-const card = defineAsyncComponent(() => import('../components/card.vue'))
+//const card = defineAsyncComponent(() => import('../components/card.vue'))
+
+//const articleInfo = defineAsyncComponent(() => import('../components/articleInfo.vue'))
 const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 //import  card  from '../components/card.vue'
 //import  personalInfo  from '../components/personalInfo.vue'
@@ -83,8 +87,9 @@ export default defineComponent({
     }
   },
   components: { 
-      card,
+      //card,
       personalInfo,
+      //articleInfo,
     },
   setup() {
      
@@ -128,6 +133,10 @@ export default defineComponent({
   },
   created() {
     this.getcontent()  
+  },
+  mounted() {
+    console.log('123')
+    console.log(personalInfo.fhsname)
   }
 });
 </script>
@@ -146,12 +155,14 @@ export default defineComponent({
   padding: 0 4vw 0 2vw;
   margin-top: 8vh ;
   min-height: 100%;
-  background: rgb(244, 244, 244)
+  background: rgb(244, 244, 244);
+  border: 2px solid green;
 }
 
 
 
 .sider {
+  text-align: center;
   flex: 0 3 18vw;
   padding-top: 12vh;
   margin-right: 6vw;
@@ -168,6 +179,7 @@ export default defineComponent({
   top: 0;
   right: 0;
   border: 2px solid red;
+  display: none;
 }
 
 @media screen and (max-width: 800px) {
@@ -179,6 +191,10 @@ export default defineComponent({
       flex-basis: 100vw;
       padding: 0 8vw 0 2vw;
       
+    }
+
+    .drawer {
+      display: unset;
     }
 }
 

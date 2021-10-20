@@ -18,10 +18,10 @@
       </a-menu>
       -->
       <div class="menu">
-        <span @click="handleClick('home')">主页</span>
-        <span @click="handleClick('technology')">技术</span>
-        <span @click="handleClick('daily')">随笔</span>
-        <span @click="handleClick('time_line')">归档</span>
+        <span @click="handleClick('/home')">主页</span>
+        <span @click="handleClick('/technology')">技术</span>
+        <span @click="handleClick('/daily')">随笔</span>
+        <span @click="handleClick('/time_line')">归档</span>
         <span class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
         <span class="s_svg"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
@@ -62,7 +62,8 @@ export default defineComponent({
   methods: {
 
     handleClick(e) {
-      this.$router.push('/'+e)
+      console.log('/twosides_layout'+e)
+      this.$router.push('/twosides_layout'+e)
     },
     headershow() {
       let scrolltop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop

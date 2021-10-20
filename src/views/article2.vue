@@ -1,16 +1,22 @@
 <template>
 
- 
-      
+  <a-layout>
+
+    <a-layout-content :style="{ padding: '0 25px', marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}">
+     
       <div class="article" >
-       <!-- <yibu></yibu>  -->
-        <articleInfo :article_info = "article_info"></articleInfo>      
+        <articleinfo :articleinfo="this.article"> </articleinfo>
+        <v-md-preview :text="text" ref="preview"></v-md-preview>
 
-        <v-md-preview :text="text" ref="preview"  ></v-md-preview>
-
-        <div id="vcomments"  ></div>
+        <div id="vcomments"></div>
       </div>
-<!--
+    </a-layout-content>
+
+    <a-layout-sider width="29vw" :style="{ marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}">
+      <div class="sider">
+        <personalInfo></personalInfo>
+      </div>
+
 <a-affix :offset-top="60">
   
       <div class="anchor">
@@ -25,29 +31,33 @@
         </div>
       </div>
 </a-affix>
--->
+
+    </a-layout-sider>
+
+  </a-layout>
+
 </template>
 <script>
-import { defineComponent, defineAsyncComponent } from 'vue';
+import { defineComponent,defineAsyncComponent } from 'vue';
 import { getarticle } from '../api/api'
 
-//const yibu = () => import('./yibu.vue');
-const articleInfo = defineAsyncComponent(() => import('../components/articleInfo'))
-// articleInfo = defineAsyncComponent(() => import('../components/articleInfo.vue'))
+const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
+const articleinfo = defineAsyncComponent(() => import('../components/articleInfo.vue'))
 //import  personalInfo  from '../components/personalInfo.vue'
 //import  articleinfo  from '../components/articleinfo.vue'
+
 
 
 export default defineComponent({
   data() {
     return {
       text: '',
-      article_info:{
+      article:{
         post_date: '',
         last_update: '',
         category: '',
         title: '',
-        tags: ['',''],
+        tags: [],
 
       },
       anchors: [],
@@ -62,10 +72,7 @@ export default defineComponent({
     };
   },
 
-  components: {  
-      //yibu,
-      articleInfo,
-    },
+  components: { personalInfo, articleinfo },
   methods: {
 
     dataScroll () {
@@ -150,7 +157,7 @@ export default defineComponent({
           deleteIndex.push(index)
           this.imgcount--;
           if(this.imgcount == 0) {
-            window.removeEventListener('scroll', this.imgLazyLoad)
+            document.removeEventListener('scroll', this.imgLazyLoad)
             }
           }
           })
@@ -159,7 +166,7 @@ export default defineComponent({
     
   },
   mounted() {
-    window.addEventListener('scroll', this.throttle(this.imgLazyLoad,100));
+    document.addEventListener('scroll', this.throttle(this.imgLazyLoad,100));
      window.addEventListener('scroll', this.throttle(this.dataScroll,100));
      this.createValine()
   },
@@ -173,11 +180,11 @@ export default defineComponent({
      getarticle(this.$route.query.articleid)
       .then((res) => {
             this.text = res.data.text
-            this.article_info.post_date = res.data.post_date
-            this.article_info.last_update = res.data.last_update
-            this.article_info.category = res.data.category
-            this.article_info.title = res.data.title
-            this.article_info.tags = res.data.tags
+            this.article.post_date = res.data.post_date
+            this.article.last_update = res.data.last_update
+            this.article.category = res.data.category
+            this.article.title = res.data.title
+            this.article.tags = res.data.tags
 
             console.log(res.data)
             this.$nextTick(function(){
@@ -217,27 +224,34 @@ export default defineComponent({
   
 });
 </script>
-
-
 <style scoped>
 
 .article {
-    width: 60vw;
-    position: relative;
     text-align: left;
-    margin: 4vh 0 2vh 6vw;
+    margin: 4vh 0 2vh 8vw;
     min-height: 20vh;
+    padding: 24px;
     background: #ffffff;
     box-shadow: 0px 0px 15px #b3b3b3;
-    border: 1px solid rgb(255, 26, 217);
-    
 }
 
 
 
+
+.sider {
+  margin-top: 4vh;
+  margin-right: 12vw;
+  color: rgb(0, 0, 0);
+  min-height: 70vh;
+  line-height: 40px;
+  background: #ffffff;
+  box-shadow: 0px 0px 15px #b3b3b3;
+}
+
 .anchor {
   text-align: left;
   margin-top: 4vh;
+  margin-right: 12vw;
   color: rgb(0, 0, 0);
   min-height: 20vh;
   background: #ffffff;
@@ -263,22 +277,13 @@ export default defineComponent({
   
 }
 
-#vcomments {
-  margin: 0 20px 0 20px;
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgb(252, 11, 11);
+  margin: 16px 24px 16px 0;
+  float: left;
 }
-
-@media screen and (max-width: 800px) {
-    
-    .article {
-      width: 81vw;
-      margin: 0 1vw 0 6vw;
-      
-      
-    }
-
-}
-
-
 
 
 

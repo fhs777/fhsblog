@@ -25,6 +25,12 @@
 <script>
 
 export default {
+    data() {
+      return {
+         fhsname: 'fhsfhs',
+      }
+       
+    },
   
     methods: {
       toCategory() {
@@ -47,6 +53,7 @@ export default {
 
 
 .personal_info {
+  text-align: center;
   color: rgb(0, 0, 0);
   min-height: 4vh;
   line-height: 2rem;

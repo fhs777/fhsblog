@@ -1,19 +1,17 @@
 <template>
-    <div style="text-align: center; line-height: 25px; ">
-        <p> {{ articleinfo.title }} 站点 </p>
-        <span> {{ articleinfo.post_date }} </span>
+    <div style="text-align: center; line-height: 1rem ">
+        <p> {{ article_info.title }} 站点 </p>
+        <span> {{ article_info.post_date }} </span>
          <span> - </span>
-        <span> {{ articleinfo.last_update }}</span>
+        <span> {{ article_info.last_update }}</span>
         <br/>
-        <span>  {{ articleinfo.category }} </span>
+        <span>  {{ article_info.category }} </span>
         <span> - </span>
-        <span v-for="(tag, index) in articleinfo.tags"
+        <span v-for="(tag, index) in article_info.tags"
         :key="index"
         >
         {{ tag }}
         </span>
-
-         <v-md-preview :text="articleinfo.text" ref="preview"></v-md-preview>
     </div>
 </template>
 
@@ -24,21 +22,34 @@ export default {
      
     },
     props: {
-        articleinfo: Object
+        article_info: Object
     },
     setup() {
         
     },
+    created() {
+        console.log('title55555555555555555555');
+        
+    },
+    mounted() {
+        console.log('mounted----');
+    }
 }
 </script>
 
 <style scoped>
 
+div {
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    border: green 1px solid;
+}
 p {
     font-family: 'Noto Serif CJK TC',serif;
     font-weight: 600;
     font-size: 2rem;
-    margin-top: 2vh;
+    margin-top: 4vh;
     margin-bottom: 4vh;
    
 }
