@@ -13,7 +13,11 @@ const routes = [
           },
           {
             path: 'article',
-            component: () => import(/* webpackChunkName: "new_articlie" */ '../views/article.vue')
+            components: {
+              default: () => import(/* webpackChunkName: "new_articlie" */ '../views/article.vue'),
+              sider_item: () => import(/* webpackChunkName: "yibu" */ '../views/anchors.vue'),
+            }
+            
           },
           {
             path: 'time_line',

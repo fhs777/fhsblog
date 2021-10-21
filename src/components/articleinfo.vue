@@ -43,7 +43,7 @@ div {
     width: 100%;
     display: block;
     overflow: hidden;
-    border: green 1px solid;
+    
 }
 p {
     font-family: 'Noto Serif CJK TC',serif;

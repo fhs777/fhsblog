@@ -80,6 +80,7 @@ export default {
   line-height: 4vh;
   font-weight: 600;
   margin: 0 6%;
+
   color: #666666;
 }
 
@@ -89,6 +90,7 @@ export default {
 
    .imgborder {
       width: 105px;
+      margin-bottom: -1vh;
     }
 
     .personal_info {
@@ -107,7 +109,7 @@ export default {
 
     .headcontainer {
       font-weight: 400;
-      margin: -13% 11% 0;
+      margin: -16% 11% 0;
       color: #000000;
     }
 

@@ -5,7 +5,7 @@
         :content="content"></card>
         
     <a-pagination 
-        :style="{ marginTop: '30px'}"
+        :style="{ margin: '4vh 0 1vh 0'}"
         v-model:current="currentPage" 
         :total="totalArts" 
         :page-size="5"

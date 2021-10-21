@@ -1,6 +1,6 @@
 <template>
 
- 
+    
       
       <div class="article" >
        <!-- <yibu></yibu>  -->
@@ -10,22 +10,10 @@
 
         <div id="vcomments"  ></div>
       </div>
-<!--
-<a-affix :offset-top="60">
-  
-      <div class="anchor">
-          <div
-          v-for="(anchor, index)  in anchors"
-          :key="anchor.index"
-          :style="{ padding: `0 0 0 ${anchor.indent * 20}px` }"
-          :class="{ list: this.activeAnchor == ('anchor'+index) }"
-          @click="handleAnchorClick(anchor)"
-        >
-          <a style="cursor: pointer">{{ anchor.title }}</a>
-        </div>
-      </div>
-</a-affix>
--->
+
+
+
+
 </template>
 <script>
 import { defineComponent, defineAsyncComponent } from 'vue';
@@ -50,9 +38,11 @@ export default defineComponent({
         tags: ['',''],
 
       },
-      anchors: [],
-      activeAnchor: '',
-      scroll: '',
+      anchors_info: {
+        item: [],
+        top: [],
+        active_anchor: 'anchor0',
+      },
       imgList: [],
       imgcount: 0, //记录图片懒加载个数
     }
@@ -68,40 +58,11 @@ export default defineComponent({
     },
   methods: {
 
-    dataScroll () {
-      this.scroll = document.documentElement.scrollTop || document.body.scrollTop;
-    },
+ 
 
-    handleAnchorClick(anchor) {
-      console.log('scroll')
-      console.log(anchor)
     
-      const { preview } = this.$refs;
-      const { lineIndex } = anchor;
 
-      const heading = preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
-      console.log('heading',heading)
-
-      if (heading) {
-        preview.scrollToTarget({
-          target: heading,
-          scrollContainer: window,
-          top: 60,
-        });
-      }
-    },
-
-    loadScroll() {
-      var self = this;
-        var sections = this.$refs.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
-        for (var i = sections.length - 1; i >= 0; i--) {
-          if (self.scroll >= sections[i].offsetTop - 100) {
-            self.activeAnchor = 'anchor'+i
-            break;
-          }
-        }
-        console.log(this.activeAnchor)
-    },
+  
 
     throttle(fn, delay) {
         let last;
@@ -160,13 +121,11 @@ export default defineComponent({
   },
   mounted() {
     window.addEventListener('scroll', this.throttle(this.imgLazyLoad,100));
-     window.addEventListener('scroll', this.throttle(this.dataScroll,100));
      this.createValine()
+     //锚点初始化
+     this.$store.commit('init_anchorsinfo',this.anchors_info);
   },
-  watch: {
-     scroll: 'loadScroll',
-      
-  },
+
   created() {
     console.log('created1')
     console.log(window.location.pathname);
@@ -179,6 +138,7 @@ export default defineComponent({
             this.article_info.title = res.data.title
             this.article_info.tags = res.data.tags
 
+
             console.log(res.data)
             this.$nextTick(function(){
               this.imgList = [...this.$refs.preview.$el.querySelectorAll('img')].slice(4);
@@ -189,18 +149,23 @@ export default defineComponent({
               const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
               //console.log(titles)
               if (!titles.length) {
-                this.anchors = [];
+                this.anchors_info.item = [];
                 return;
               }
+              anchors.forEach((item) => {
+                let rect = item.getBoundingClientRect()
+                this.anchors_info.top.push(rect.top)
+              })
+           
 
               const hTags = Array.from(new Set(titles.map((title) => title.tagName))).sort();
 
-              this.anchors = titles.map((el) => ({
+              this.anchors_info.item = titles.map((el) => ({
                 title: el.innerText,
                 lineIndex: el.getAttribute('data-v-md-line'),
                 indent: hTags.indexOf(el.tagName),
               }));
-              console.log(this.anchors)
+              console.log(this.anchors_info.item)
                window.scrollTo(0, 0)
             })
 
@@ -212,7 +177,9 @@ export default defineComponent({
 
   beforeUnmount() {
     window.removeEventListener('scroll', this.click, false)
-  }
+    
+  },
+
 
   
 });
@@ -222,26 +189,30 @@ export default defineComponent({
 <style scoped>
 
 .article {
-    width: 60vw;
+    width: 62vw;
     position: relative;
     text-align: left;
     margin: 4vh 0 2vh 6vw;
     min-height: 20vh;
     background: #ffffff;
     box-shadow: 0px 0px 15px #b3b3b3;
-    border: 1px solid rgb(255, 26, 217);
+   
     
 }
 
 
 
 .anchor {
+  position: sticky;
+  top: 20vh;
+  width: 15vw;
+  float: right;
+  margin-right: -19.3vw;
   text-align: left;
-  margin-top: 4vh;
   color: rgb(0, 0, 0);
-  min-height: 20vh;
   background: #ffffff;
   box-shadow: 0px 0px 15px #b3b3b3;
+  z-index: 3000;
 }
 
 .anchor div {

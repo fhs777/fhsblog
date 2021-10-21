@@ -1,5 +1,6 @@
 <template>
 
+
   <div class="main_container">
 
     <div class="laycontent"> 
@@ -44,13 +45,34 @@
 
       <div class="sider">
        <personalInfo> </personalInfo>
+       <router-view name="sider_item"></router-view>
       </div>
 
+<!--
       <div class="drawer">
         <personalInfo> </personalInfo>
+        <div class="dividing_line"></div>
+        <div class="menu_item">
+          <a class="site_page"><img style="height: 24px" src="/search.svg"><span>主页</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>技术梳理</span></a>
+          <a class="site_page"><img style="height: 24px" src="/search.svg"><span>项目踩坑</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>面试八股</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
+          <a class="site_page"><img style="height: 24px" src="/search.svg"><span>主页</span></a>
+        </div>
       </div>
 
-
+-->
     
 
    <!--
@@ -68,7 +90,6 @@
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
-
 //const card = defineAsyncComponent(() => import('../components/card.vue'))
 
 //const articleInfo = defineAsyncComponent(() => import('../components/articleInfo.vue'))
@@ -78,8 +99,7 @@ const personalInfo = defineAsyncComponent(() => import('../components/personalIn
 export default defineComponent({
   data() {
     return {
-      contents: [
-      ],
+      contents: [],
       contentspage: [],
       timelines: [],
       currentPage: 1,
@@ -150,19 +170,20 @@ export default defineComponent({
 }
 
 .laycontent {
+  text-align: center;
   flex: 0 5 80vw;
   width: 100%;
   padding: 0 4vw 0 2vw;
   margin-top: 8vh ;
   min-height: 100%;
   background: rgb(244, 244, 244);
-  border: 2px solid green;
+  border: 1px solid red;
+ 
 }
 
 
 
 .sider {
-  text-align: center;
   flex: 0 3 18vw;
   padding-top: 12vh;
   margin-right: 6vw;
@@ -170,6 +191,7 @@ export default defineComponent({
   min-height: 60vh;
   line-height: 3vh;
   background-color: rgb(244, 244, 244);
+  border: 1px solid rgb(6, 93, 255);
 }
 
 .drawer {
@@ -178,11 +200,47 @@ export default defineComponent({
   position: fixed;
   top: 0;
   right: 0;
-  border: 2px solid red;
-  display: none;
+  overflow: scroll;
 }
 
+
+.dividing_line {
+  width: 95%;
+  margin: 2vh auto;
+  border-bottom: 3px  rgba(85, 164, 255, 0.596) ;
+  border-bottom-style: dashed;
+}
+
+.menu_item {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+
+}
+
+.site_page {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 50px 10px;
+  height: 25px;
+  vertical-align: middle;
+
+}
+
+span {
+  margin-left: 40px;
+    color: black;
+}
+
+img {
+  margin-top: -2px;
+}
+
+
+
+
 @media screen and (max-width: 800px) {
+  
     .sider {
       display: none;
     }
@@ -195,6 +253,9 @@ export default defineComponent({
 
     .drawer {
       display: unset;
+      min-height: 100vh;
+      background-color: rgb(255, 255, 255);
+      z-index: 9999;
     }
 }
 

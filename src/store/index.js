@@ -8,6 +8,11 @@ export default createStore({
     tags: {},
     gg: 'nihao',
     timeline:[],
+    anchors_info: {
+      item: [],
+      top: [],
+      active_anchor: 'anchor0',
+    },
   },
   mutations: {
     initialize_category (state, catelist) {
@@ -18,8 +23,11 @@ export default createStore({
   },
     initialize_timeline (state, timeline) {
       state.timeline = timeline;
-      
     },
+
+    init_anchorsinfo (state, anchor_info) {
+      state.anchors_info = anchor_info;
+    }
   },
   actions: {
     async initialize_category( {commit} ) {

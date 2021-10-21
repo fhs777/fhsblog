@@ -23,20 +23,38 @@
         <span @click="handleClick('daily')">随笔</span>
         <span @click="handleClick('time_line')">归档</span>
         <span class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
-        <span class="s_svg"><img style="height: 5vh" src="/menu.svg"></span>
+        <span class="s_svg" @click="drawer_show(true)"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
-      <!--
-  <div class="container">
-      <a-input-search
-      v-model:value="value"
-      placeholder="input search text"
-      class="search"
-      @search="onSearch"
-    />
-  </div>
-  -->
     </a-layout-header>
     </transition>
+
+
+
+    <div id="mask" @click="drawer_show(false)"></div>
+    <div id="drawer">
+        <personalInfo> </personalInfo>
+        <div class="dividing_line"></div>
+        <div class="menu_item">
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">项目踩坑</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">面试八股</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
+        </div>
+      </div>
+
    <router-view></router-view>
 
     <a-layout-footer :style="{ textAlign: 'center' }">
@@ -46,7 +64,8 @@
 
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, defineAsyncComponent } from 'vue';
+const personalInfo = defineAsyncComponent(() => import('./components/personalInfo.vue'))
 
 
 export default defineComponent({
@@ -56,8 +75,13 @@ export default defineComponent({
       head_show: 'fixed',
       scroll_top: 0,
       show: true,
+      d_show: true,
     }
   },
+
+  components: { 
+      personalInfo,
+    },
 
   methods: {
 
@@ -75,7 +99,31 @@ export default defineComponent({
       else {
         this.show = false
       }
-    } 
+    },
+    
+    drawer_show(state) {
+      let right_drawer = document.getElementById('drawer');
+      let mask = document.getElementById('mask');
+      if(state) {
+        right_drawer.style.transform ="translateX(-300px)";
+        document.body.style.overflowY = "hidden"
+        mask.style.display = "unset"
+         setTimeout(() => {
+          mask.style.opacity = "0.8"
+        },10)
+        
+      }
+      else {
+        right_drawer.style.transform ="translateX(300px)";
+        document.body.style.overflowY = "unset"
+        mask.style.opacity = "0"
+        setTimeout(() => {
+          mask.style.display = "none"
+        },500)
+        
+      }
+      
+    }
 
   },
   setup() {
@@ -92,10 +140,6 @@ export default defineComponent({
 
   mounted() {
      window.addEventListener('scroll', this.headershow);
-     window.addEventListener('error', function(e) {
-      console.log('something wrong')
-      console.log(e.message)
-    })
   }
 
  
@@ -158,6 +202,63 @@ export default defineComponent({
   
   display: none;
   
+}
+
+/* 抽屉组件*/
+#drawer {
+  position: fixed;
+  width: 300px;
+  height: 100vh;
+  top: 0;
+  right: -300px;
+  overflow: scroll;
+  min-height: 100vh;
+  background-color: rgb(255, 255, 255);
+  transition:all 0.5s ease-in-out;
+  z-index: 9999;
+}
+
+
+.dividing_line {
+  width: 95%;
+  margin: 2vh auto;
+  border-bottom: 3px  rgba(85, 164, 255, 0.596) ;
+  border-bottom-style: dashed;
+}
+
+.menu_item {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+
+}
+
+.site_page {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 50px 10px;
+  height: 25px;
+  vertical-align: middle;
+
+}
+
+.drawer_item {
+  margin-left: 40px;
+    color: black;
+}
+
+#mask {
+ 
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0);
+  border: olive 2px solid;
+  transition: 0.5s ease-out ;
+  z-index: 9999;
+  opacity: 0;
+  display: none;
+
 }
 
 

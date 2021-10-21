@@ -25,6 +25,8 @@
         <span class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
         <span class="s_svg"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
+
+       
       <!--
   <div class="container">
       <a-input-search
@@ -37,6 +39,34 @@
   -->
     </a-layout-header>
     </transition>
+
+    <div style="position: relatice">
+      <div class="mask"></div>
+    </div>
+    <div class="drawer">
+        <personalInfo> </personalInfo>
+        <div class="dividing_line"></div>
+        <div class="menu_item">
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">项目踩坑</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">面试八股</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
+        </div>
+      </div>
+
    <router-view></router-view>
 
     <a-layout-footer :style="{ textAlign: 'center' }">
@@ -155,6 +185,67 @@ export default defineComponent({
   
 }
 
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgb(252, 11, 11);
+  margin: 16px 0 16px 0;
+  float: left;
+}
+
+
+/* 抽屉组件                */
+.drawer {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  overflow: scroll;
+  display: none;
+}
+
+
+.dividing_line {
+  width: 95%;
+  margin: 2vh auto;
+  border-bottom: 3px  rgba(85, 164, 255, 0.596) ;
+  border-bottom-style: dashed;
+}
+
+.menu_item {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+
+}
+
+.site_page {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 50px 10px;
+  height: 25px;
+  vertical-align: middle;
+
+}
+
+.drawer_item {
+  margin-left: 40px;
+    color: black;
+}
+
+
+
+.mask {
+ 
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.486);
+  border: olive 2px solid;
+  z-index: 9999;
+}
+
 
 @media screen and (max-width: 800px) {
     .menu > span {
@@ -173,18 +264,25 @@ export default defineComponent({
       cursor: pointer;
 
     }
+   
+
+    .drawer {
+      display: unset;
+      min-height: 100vh;
+      background-color: rgb(255, 255, 255);
+      z-index: 9999;
+    }
+
+    .mask {
+     display: unset;
+    }
+
+
 }
 
 
 
 
- .logo {
-  width: 120px;
-  height: 31px;
-  background: rgb(252, 11, 11);
-  margin: 16px 0 16px 0;
-  float: left;
-}
 
 
 
