@@ -102,7 +102,6 @@ export default defineComponent({
       contents: [],
       contentspage: [],
       timelines: [],
-      currentPage: 1,
       totalArts: 0,
     }
   },
@@ -177,7 +176,6 @@ export default defineComponent({
   margin-top: 8vh ;
   min-height: 100%;
   background: rgb(244, 244, 244);
-  border: 1px solid red;
  
 }
 
@@ -191,7 +189,6 @@ export default defineComponent({
   min-height: 60vh;
   line-height: 3vh;
   background-color: rgb(244, 244, 244);
-  border: 1px solid rgb(6, 93, 255);
 }
 
 .drawer {

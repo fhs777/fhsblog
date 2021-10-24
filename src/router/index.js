@@ -51,29 +51,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "daily" */ '../views/daily.vue')
       },
       {
-        path: '/maodian',
-        component: () => import(/* webpackChunkName: "maodian" */ '../views/maodian.vue')
+        path: '/test',
+        component: () => import(/* webpackChunkName: "maodian" */ '../views/test.vue')
       },
      
       
-     
-     
-  {
-    path: '/ab',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
-    path: '/anti',
-    name: 'anti',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/main.vue')
-  },
   {
     path: '/:pathMatch(.*)*',
     name: 'notfound',

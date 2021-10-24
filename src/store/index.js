@@ -32,6 +32,8 @@ export default createStore({
   actions: {
     async initialize_category( {commit} ) {
       const result =  await categoryget();
+      console.log('initialize_category')
+      console.log(result.data)
       commit('initialize_category', result.data)
   }
 

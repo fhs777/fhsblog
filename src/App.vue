@@ -18,11 +18,12 @@
       </a-menu>
       -->
       <div class="menu">
+        <span @click="showSearchmodal()"><img style="height: 3.5vh" src="/search.svg">搜索</span>
         <span @click="handleClick('home')">主页</span>
         <span @click="handleClick('technology')">技术</span>
         <span @click="handleClick('daily')">随笔</span>
         <span @click="handleClick('time_line')">归档</span>
-        <span class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
+        <span @click="showSearchmodal()" class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
         <span class="s_svg" @click="drawer_show(true)"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
     </a-layout-header>
@@ -30,7 +31,35 @@
 
 
 
-    <div id="mask" @click="drawer_show(false)"></div>
+    <a-modal 
+    v-model:visible="visible" 
+    :footer="null">
+    <template #title>
+        <p>搜索信息</p> 
+        <p style="margin-bottom: 0px;">
+          <input 
+          class="inputtext" 
+          type="text" 
+          placeholder="搜索文章"
+          v-model="search_text"
+          @keyup.enter="getcontent()">
+        </p>
+      </template>
+
+      <a-list 
+        size="small" 
+        :locale= "loacle" 
+        :data-source="contents"
+        :pagination="pagination">
+          <template  #renderItem="{ item }">
+            <a-list-item style="padding-left: 20px;margin: 0;">{{ item.title }}</a-list-item>
+          </template>
+        </a-list>  
+    </a-modal>
+
+    <div id="mask" @click="drawer_show(false)">
+      <input >
+    </div>
     <div id="drawer">
         <personalInfo> </personalInfo>
         <div class="dividing_line"></div>
@@ -39,19 +68,6 @@
           <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
           <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">项目踩坑</span></a>
           <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">面试八股</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
         </div>
       </div>
 
@@ -64,6 +80,7 @@
 
 </template>
 <script>
+import { getarticles } from './api/api'
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 const personalInfo = defineAsyncComponent(() => import('./components/personalInfo.vue'))
 
@@ -72,15 +89,45 @@ export default defineComponent({
   data() {
     return {
       contents: [],
+      contents_page:[],
       head_show: 'fixed',
       scroll_top: 0,
       show: true,
       d_show: true,
+      search_text:'',
+      loacle: {
+        emptyText: '暂无数据'
+      }
     }
+  },
+
+  setup() {
+    const visible = ref(false);
+    const selectedKeys = ref(['1']);
+
+    const showSearchmodal = () => {
+      visible.value = true;
+      console.log('showmodal')
+    };
+
+    const pagination = {
+      pageSize: 5,
+    };
+
+
+     return {
+      visible,
+      selectedKeys,
+      pagination,
+      showSearchmodal,
+
+    };
+
   },
 
   components: { 
       personalInfo,
+
     },
 
   methods: {
@@ -89,7 +136,7 @@ export default defineComponent({
       console.log('/'+e)
       this.$router.push({path: '/'+e})
     },
-    headershow() {
+    headershow1() {
       let scrolltop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       let scroll = scrolltop - this.scroll_top
       this.scroll_top = scrolltop
@@ -99,6 +146,10 @@ export default defineComponent({
       else {
         this.show = false
       }
+    },
+
+    headershow() {
+      console.log('headershow')
     },
     
     drawer_show(state) {
@@ -110,6 +161,8 @@ export default defineComponent({
         mask.style.display = "unset"
          setTimeout(() => {
           mask.style.opacity = "0.8"
+          console.log(document.documentElement.scrollTop)
+          
         },10)
         
       }
@@ -122,24 +175,40 @@ export default defineComponent({
         },500)
         
       }
-      
-    }
+    },
+
+    async getcontent() {
+      let search_text = this.search_text
+      console.log('stext')
+      console.log(search_text)
+      const articles = await getarticles();
+      console.log(articles.data);
+      this.contents =[];
+      let search_reg = new RegExp(search_text)
+      console.log(search_reg)
+      let screen_art = articles.data.filter(item => {
+        return (item.title.search(search_reg) != -1)
+      })
+      screen_art.forEach(element => {
+        let content = {};
+        content.id = element._id;
+        content.title = element.title;
+        this.contents.push(content)
+      });
+      console.log(this.contents)
+    },
 
   },
-  setup() {
 
-    const selectedKeys = ref(['1']);
-    return {
-      selectedKeys,
-    };
-  },
   created() {
-    
+    console.log('initialize_category1')
     this.$store.dispatch('initialize_category')
   },
 
-  mounted() {
+  Mounted() {  //不触发，原因暂时未知
      window.addEventListener('scroll', this.headershow);
+     console.log('initialize_category2')
+     this.$store.dispatch('initialize_category')
   }
 
  
@@ -148,13 +217,14 @@ export default defineComponent({
 <style scoped>
 
 .header {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgb(255, 255, 255);
   position: fixed;
   z-index: 4;
   height: 10vh;
   width: 100%;
   animation: ease-in 1s;
   z-index: 100;
+  box-shadow: 0px 0px 5px  black;
 }
 
 .header-enter-active {
@@ -175,6 +245,7 @@ export default defineComponent({
   width: 200px;
   border-radius: 20px;
   float: right;
+
 
 
 }
@@ -204,18 +275,27 @@ export default defineComponent({
   
 }
 
+.inputtext {
+  height: 40px;
+  width: 100%;
+  border-radius: 15px;
+  padding-left: 20px;
+}
+
+
+
 /* 抽屉组件*/
 #drawer {
   position: fixed;
   width: 300px;
   height: 100vh;
-  top: 0;
   right: -300px;
   overflow: scroll;
   min-height: 100vh;
   background-color: rgb(255, 255, 255);
   transition:all 0.5s ease-in-out;
   z-index: 9999;
+  display: none;
 }
 
 
@@ -249,12 +329,11 @@ export default defineComponent({
 
 #mask {
  
-  position: absolute;
-  width: 100vw;
+  position: fixed;
+  width: 150vw;
   height: 100vh;
   background-color: rgb(0, 0, 0);
-  border: olive 2px solid;
-  transition: 0.5s ease-out ;
+  transition: 0.5s ease-in-out ;
   z-index: 9999;
   opacity: 0;
   display: none;
@@ -279,6 +358,17 @@ export default defineComponent({
       cursor: pointer;
 
     }
+
+    #drawer {
+      z-index: 9999;
+      display: unset;
+    }
+
+    #mask {
+      display: unset;
+    }
+
+  
 }
 
 

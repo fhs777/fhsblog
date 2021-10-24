@@ -6,7 +6,6 @@
         
     <a-pagination 
         :style="{ margin: '4vh 0 1vh 0'}"
-        v-model:current="currentPage" 
         :total="totalArts" 
         :page-size="5"
         @change="onPagechange">
@@ -25,6 +24,7 @@ export default {
             content: [],
             timelines: [],
             contentspage: [],
+            totalArts: 0,  //warn修改未完成
         }
     },
     components: { 
@@ -63,7 +63,7 @@ export default {
 
    
   },
-  created() {
+  mounted() {
     this.getcontent()  
   }
     
