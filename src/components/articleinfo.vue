@@ -1,6 +1,6 @@
 <template>
-    <div style="text-align: center; line-height: 1rem ">
-        <p> {{ article_info.title }} 站点 </p>
+    <div style="text-align: center; ">
+        <p> {{ article_info.title }} </p>
         <span> {{ article_info.post_date }} </span>
          <span> - </span>
         <span> {{ article_info.last_update }}</span>
@@ -40,8 +40,10 @@ export default {
 <style scoped>
 
 div {
+
     width: 100%;
     display: block;
+    padding: 0 2vw;
     overflow: hidden;
     
 }

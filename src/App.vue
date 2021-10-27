@@ -379,7 +379,7 @@ export default defineComponent({
   height: 31px;
   background: rgb(252, 11, 11);
   margin: 16px 0 16px 0;
-  float: left;
+  display: inline-block;
 }
 
 

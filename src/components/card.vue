@@ -35,7 +35,7 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin: 4vh 0 0vh 6vw;
+    margin: 4vh 0 0 0;
     min-height: 25vh;
     padding: 20px 20px 12px;
     background: #ffffff;
@@ -72,6 +72,8 @@ span {
     color:rgb(19, 128, 252);
     font-weight: bold;
 }
+
+
 
 
 </style>

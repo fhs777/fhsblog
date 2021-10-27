@@ -66,7 +66,14 @@ export default ({
     },
 
       mounted() {
+
         window.addEventListener('scroll', this.throttle(this.dataScroll,100));
+        console.log('anchors_info')
+        console.log(this.$store.state.anchors_info)
+
+        setTimeout(() => {
+          this.anchors_info = this.$store.state.anchors_info
+        }, 50)
       },
 
     watch: {
@@ -75,10 +82,7 @@ export default ({
 
     created() {
         console.log('anchors_info')
-        console.log(this.$store.state.anchors_info)
-        setTimeout(() => {
-          this.anchors_info = this.$store.state.anchors_info
-        }, 50)
+        
 
     },
 

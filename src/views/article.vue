@@ -6,7 +6,7 @@
        <!-- <yibu></yibu>  -->
         <articleInfo :article_info = "article_info"></articleInfo>      
 
-        <v-md-preview :text="text" ref="preview"  ></v-md-preview>
+        <v-md-preview :text="text" ref="preview" style="font-size = 1rem" ></v-md-preview>
 
         <div id="vcomments"  ></div>
       </div>
@@ -120,6 +120,7 @@ export default defineComponent({
     
   },
   mounted() {
+
     window.addEventListener('scroll', this.throttle(this.imgLazyLoad,100));
      this.createValine()
      //锚点初始化
@@ -127,6 +128,7 @@ export default defineComponent({
   },
 
   created() {
+    document.documentElement.scrollTop = 0;
     console.log('created1')
     console.log(window.location.pathname);
      getarticle(this.$route.query.articleid)
@@ -154,7 +156,7 @@ export default defineComponent({
               }
               anchors.forEach((item) => {
                 let rect = item.getBoundingClientRect()
-                this.anchors_info.top.push(rect.top)
+                this.anchors_info.top.push(rect.top + window.scrollY)
               })
            
 
@@ -166,6 +168,8 @@ export default defineComponent({
                 indent: hTags.indexOf(el.tagName),
               }));
               console.log(this.anchors_info.item)
+              console.log('top')
+              console.log(this.anchors_info.top)
                window.scrollTo(0, 0)
             })
 
@@ -192,7 +196,6 @@ export default defineComponent({
     width: 62vw;
     position: relative;
     text-align: left;
-    margin: 4vh 0 2vh 6vw;
     min-height: 20vh;
     background: #ffffff;
     box-shadow: 0px 0px 15px #b3b3b3;

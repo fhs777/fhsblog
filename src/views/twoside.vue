@@ -170,9 +170,9 @@ export default defineComponent({
 
 .laycontent {
   text-align: center;
-  flex: 0 5 80vw;
+  flex: 0 5 70vw;
   width: 100%;
-  padding: 0 4vw 0 2vw;
+  padding: 4vh 4vw 2vh 10vw;
   margin-top: 8vh ;
   min-height: 100%;
   background: rgb(244, 244, 244);
@@ -183,7 +183,7 @@ export default defineComponent({
 
 .sider {
   flex: 0 3 18vw;
-  padding-top: 12vh;
+  padding-top: 16vh;
   margin-right: 6vw;
   color: rgb(0, 0, 0);
   min-height: 60vh;
@@ -244,7 +244,7 @@ img {
 
     .laycontent {
       flex-basis: 100vw;
-      padding: 0 8vw 0 2vw;
+      padding: 0 2vh 0 2vh;
       
     }
 

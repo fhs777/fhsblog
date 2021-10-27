@@ -1,4 +1,5 @@
 var webpack = require('webpack')
+const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = {
     // 公共路径(必须有的)
     publicPath: "/",
@@ -17,6 +18,20 @@ module.exports = {
       config.plugin('ignore')
       .use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)); //忽略/moment/locale下的所有文件
     },
+
+    configureWebpack:{
+      plugins: [
+       new CompressionPlugin({
+         //匹配文件
+         test: /\.js$|\.css$|\.html$/,
+         //压缩超过此大小的文件,以字节为单位
+         threshold: 10240,
+         //删除原始文件只保留压缩后的文件
+         deleteOriginalAssets: false
+       })
+     ]
+   },
+
 
 
 
