@@ -4,19 +4,9 @@
     <transition name="header">
     <a-layout-header 
     class="header"
-    v-if="show">
+    :class="{header_fixed: show}">
     <div class="logo"></div>
-     <!-- <a-menu
-        mode="horizontal"
-        v-model:selectedKeys="selectedKeys"
-        @click="handleClick"
-        class="menu">
-        <a-menu-item key="home">主页</a-menu-item>
-        <a-menu-item key="technology">技术</a-menu-item>
-        <a-menu-item key="daily">随笔</a-menu-item>
-        <a-menu-item key="time_line">归档</a-menu-item>
-      </a-menu>
-      -->
+
       <div class="menu">
         <span @click="showSearchmodal()"><img style="height: 3.5vh" src="/search.svg">搜索</span>
         <span @click="handleClick('home')">主页</span>
@@ -52,29 +42,33 @@
         :data-source="contents"
         :pagination="pagination">
           <template  #renderItem="{ item }">
-            <a-list-item style="padding-left: 20px;margin: 0;">{{ item.title }}</a-list-item>
+            <a-list-item 
+              style="padding-left: 20px;margin: 0;"
+              @click="readarticle(item.id)">
+              {{ item.title }}
+            </a-list-item>
           </template>
         </a-list>  
     </a-modal>
 
-    <div id="mask" @click="drawer_show(false)">
-      <input >
+  
+    <div class="mask"  v-show="d_show" :class="{mask_opacity: d_showcopy}"  @click="drawer_show(false)">
     </div>
-    <div id="drawer">
+    <div id="drawer" :class="{drawer_left: d_showcopy}">
         <personalInfo> </personalInfo>
         <div class="dividing_line"></div>
         <div class="menu_item">
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">项目踩坑</span></a>
-          <a class="site_page"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page" @click="handleClick('home')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
+          <a class="site_page" @click="handleClick('technology')"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
+          <a class="site_page" @click="handleClick('daily')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page" @click="handleClick('time_line')"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">文章归档</span></a>
         </div>
       </div>
 
    <router-view></router-view>
 
     <a-layout-footer :style="{ textAlign: 'center' }">
-      Ant Design ©2018 Created by Ant UED
+      fhs Blog ©2021 Created by fhs_7zw
     </a-layout-footer>
   </a-layout>
 
@@ -82,6 +76,7 @@
 <script>
 import { getarticles } from './api/api'
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
+import { throttle } from './utils';
 const personalInfo = defineAsyncComponent(() => import('./components/personalInfo.vue'))
 
 
@@ -92,8 +87,9 @@ export default defineComponent({
       contents_page:[],
       head_show: 'fixed',
       scroll_top: 0,
-      show: true,
-      d_show: true,
+      show: false,    //header头部
+      d_show: false, //控制遮罩显示与否
+      d_showcopy: false, //控制遮罩淡入淡出效果
       search_text:'',
       loacle: {
         emptyText: '暂无数据'
@@ -128,19 +124,45 @@ export default defineComponent({
   components: { 
       personalInfo,
 
-    },
+  },
+
+ watch: {
+     
+      // //控制遮罩的显示与抽屉拉开与收起
+      d_show(newState) {
+        let that = this
+
+        if(newState) {
+          setTimeout(function(){
+            that.d_showcopy = newState
+          },0)
+        }
+
+      },
+},
 
   methods: {
 
     handleClick(e) {
       console.log('/'+e)
+      if(this.d_show) {
+        this.drawer_show(false)
+      }
       this.$router.push({path: '/'+e})
     },
-    headershow1() {
+
+    readarticle(id) {
+        console.log(id);
+        //this.$router.push({path: '/article',  query: { articleid: id } })
+            
+    },
+
+    headershow() {
       let scrolltop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       let scroll = scrolltop - this.scroll_top
       this.scroll_top = scrolltop
-      if(scroll < 0) {
+      //console.log('scroll')
+      if(scroll > 0) {
         this.show = true
       }
       else {
@@ -148,32 +170,20 @@ export default defineComponent({
       }
     },
 
-    headershow() {
-      console.log('headershow')
-    },
     
-    drawer_show(state) {
-      let right_drawer = document.getElementById('drawer');
-      let mask = document.getElementById('mask');
+    drawer_show(state) {  //控制遮罩的显示与抽屉拉开与收起
+      let that = this;
+     
       if(state) {
-        right_drawer.style.transform ="translateX(-300px)";
-        document.body.style.overflowY = "hidden"
-        mask.style.display = "unset"
-         setTimeout(() => {
-          mask.style.opacity = "0.8"
-          console.log(document.documentElement.scrollTop)
-          
-        },10)
-        
+        that.d_show = state;
+        document.body.style.overflowY = "hidden" 
       }
       else {
-        right_drawer.style.transform ="translateX(300px)";
         document.body.style.overflowY = "unset"
-        mask.style.opacity = "0"
-        setTimeout(() => {
-          mask.style.display = "none"
+        that.d_showcopy = state;
+        setTimeout(function(){
+          that.d_show = state;
         },500)
-        
       }
     },
 
@@ -201,14 +211,15 @@ export default defineComponent({
   },
 
   created() {
-    console.log('initialize_category1')
-    this.$store.dispatch('initialize_category')
+    //console.log('initialize_category1')
+   // this.$store.dispatch('initialize_category')
+    //window.addEventListener('scroll', throttle(this.headershow),200);
   },
 
-  Mounted() {  //不触发，原因暂时未知
-     window.addEventListener('scroll', this.headershow);
-     console.log('initialize_category2')
-     this.$store.dispatch('initialize_category')
+  mounted() {  //不触发，原因暂时未知
+     console.log('initialize_category1')
+    this.$store.dispatch('initialize_category')
+    window.addEventListener('scroll', throttle(this.headershow,100));
   }
 
  
@@ -222,24 +233,16 @@ export default defineComponent({
   z-index: 4;
   height: 10vh;
   width: 100%;
-  animation: ease-in 1s;
+  transition: all 0.5s ease 0.1s;
   z-index: 100;
   box-shadow: 0px 0px 5px  black;
 }
 
-.header-enter-active {
-  transition:  0.5s ease;
-  opacity:0.7
+.header_fixed {
+  transform: translateY(-10.2vh);
 }
 
-.header-leave-active {
-  transition: opacity 0.5s ease;
-}
 
-.header-enter-from,
-.header-leave-to {
-  opacity: 0;
-}
 
 .container {
   width: 200px;
@@ -315,7 +318,7 @@ export default defineComponent({
 
 .site_page {
   display: inline-block;
-  width: 100%;
+  width: 80%;
   margin: 10px 50px 10px;
   height: 25px;
   vertical-align: middle;
@@ -327,28 +330,38 @@ export default defineComponent({
     color: black;
 }
 
-#mask {
+.mask {
  
   position: fixed;
   width: 150vw;
   height: 100vh;
   background-color: rgb(0, 0, 0);
-  transition: 0.5s ease-in-out ;
+  transition:all 0.5s ease-in-out ;
   z-index: 9999;
   opacity: 0;
-  display: none;
 
 }
 
+.mask_opacity {
+    opacity: 0.8;
+}
+
+
+
 
 @media screen and (max-width: 800px) {
+    .header_fixed {
+      transform: translateY(0);
+    }
+
     .menu > span {
       display: none;
     }
+
     .menu > span:hover {
       color: rgb(19, 93, 252);
       border-bottom: 2px solid rgb(19, 93, 252);
-  }
+   }
 
     .menu > .s_svg {
       display: unset;
@@ -364,9 +377,11 @@ export default defineComponent({
       display: unset;
     }
 
-    #mask {
-      display: unset;
+    .drawer_left {
+     transform: translateX(-300px);
     }
+
+  
 
   
 }

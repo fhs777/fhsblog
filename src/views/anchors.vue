@@ -13,7 +13,7 @@
 </template>
 
 <script>
-
+import { throttle } from '../utils/index'
 
 export default ({
     data() {
@@ -29,8 +29,7 @@ export default ({
         },
 
         handleAnchorClick(index) {
-          console.log('scroll'+index)
-        
+          //console.log('scroll'+index)
           //console.log(this.anchors_info.top[index])
           document.documentElement.scrollTop = this.anchors_info.top[index] + 2
           this.anchors_info.active_anchor = 'anchor'+index
@@ -38,53 +37,33 @@ export default ({
         loadScroll() {
           let self = this;
             let sections = this.anchors_info.top;
-            console.log(sections,document.documentElement.scrollTop)
+            //console.log(sections,document.documentElement.scrollTop)
             for (let i = sections.length - 1; i >= 0; i--) {
               if (self.scroll >= sections[i]) {
                 self.anchors_info.active_anchor = 'anchor'+i
                 break;
               }
             }
-            console.log(this.anchors_info.active_anchor)
+            //console.log(this.anchors_info.active_anchor)
         },
 
-          throttle(fn, delay) {
-            let last;
-            return function() {
-                let that = this;
-                let _args = arguments;
-                let now = +new Date()
-                if(last && last + delay > now ) {
-                    return
-                }
-                else {
-                    last = now
-                    fn.apply(that,_args)
-                }
-            }
-        },
     },
 
       mounted() {
 
-        window.addEventListener('scroll', this.throttle(this.dataScroll,100));
-        console.log('anchors_info')
-        console.log(this.$store.state.anchors_info)
-
+        window.addEventListener('scroll', throttle(this.dataScroll,100));
+        //console.log('anchors_info')
+        //console.log(this.$store.state.anchors_info)
+        let that = this;
         setTimeout(() => {
-          this.anchors_info = this.$store.state.anchors_info
-        }, 50)
+          that.anchors_info = that.$store.state.anchors_info
+        }, 0)
       },
 
     watch: {
      scroll: 'loadScroll',   
     },
 
-    created() {
-        console.log('anchors_info')
-        
-
-    },
 
 })
 </script>

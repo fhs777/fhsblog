@@ -4,84 +4,13 @@
   <div class="main_container">
 
     <div class="laycontent"> 
-
       <router-view></router-view>
-
-     <!--<card 
-        v-for="content in contentspage"
-        :key="content.index"
-        :content="content"></card>
-        
-      <a-pagination 
-        :style="{ marginTop: '30px'}"
-        v-model:current="currentPage" 
-        :total="totalArts" 
-        :page-size="5"
-        @change="onPagechange">
-      </a-pagination>
-      -->
     </div>
     
-    <!--
-       <a-layout-content 
-        :style="{ padding: '0 25px 0 60px', marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}" 
-        :class="laycontent">
-      
-     <card 
-        v-for="content in contentspage"
-        :key="content.index"
-        :content="content"></card>
-        
-      <a-pagination 
-        :style="{ marginTop: '30px'}"
-        v-model:current="currentPage" 
-        :total="totalArts" 
-        :page-size="5"
-        @change="onPagechange"></a-pagination>
-    </a-layout-content>
-     -->
-
-     
-
-      <div class="sider">
-       <personalInfo> </personalInfo>
-       <router-view name="sider_item"></router-view>
-      </div>
-
-<!--
-      <div class="drawer">
-        <personalInfo> </personalInfo>
-        <div class="dividing_line"></div>
-        <div class="menu_item">
-          <a class="site_page"><img style="height: 24px" src="/search.svg"><span>主页</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>技术梳理</span></a>
-          <a class="site_page"><img style="height: 24px" src="/search.svg"><span>项目踩坑</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>面试八股</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/menu.svg"><span>随便说说</span></a>
-          <a class="site_page"><img style="height: 24px" src="/search.svg"><span>主页</span></a>
-        </div>
-      </div>
-
--->
-    
-
-   <!--
-    <a-layout-sider width="29vw" :style="{ marginTop: '64px' ,minHeight: '100%', background:'rgb(244, 244, 244)'}">
-      <div class="sider">
-       <personalInfo> </personalInfo>
-      </div>
-    </a-layout-sider> 
-    -->
+    <div class="sider">
+      <personalInfo> </personalInfo>
+      <router-view name="sider_item"></router-view>
+    </div>
 
   </div>
 
@@ -90,12 +19,11 @@
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
-//const card = defineAsyncComponent(() => import('../components/card.vue'))
 
-//const articleInfo = defineAsyncComponent(() => import('../components/articleInfo.vue'))
+
+
 const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
-//import  card  from '../components/card.vue'
-//import  personalInfo  from '../components/personalInfo.vue'
+
 export default defineComponent({
   data() {
     return {
@@ -106,9 +34,7 @@ export default defineComponent({
     }
   },
   components: { 
-      //card,
       personalInfo,
-      //articleInfo,
     },
   setup() {
      

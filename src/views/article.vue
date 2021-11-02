@@ -18,6 +18,7 @@
 <script>
 import { defineComponent, defineAsyncComponent } from 'vue';
 import { getarticle } from '../api/api'
+import { throttle } from '../utils/index'
 
 //const yibu = () => import('./yibu.vue');
 const articleInfo = defineAsyncComponent(() => import('../components/articleInfo'))
@@ -36,6 +37,7 @@ export default defineComponent({
         category: '',
         title: '',
         tags: ['',''],
+        lazy_img: null,
 
       },
       anchors_info: {
@@ -57,29 +59,6 @@ export default defineComponent({
       articleInfo,
     },
   methods: {
-
- 
-
-    
-
-  
-
-    throttle(fn, delay) {
-        let last;
-        return function() {
-            let that = this;
-            let _args = arguments;
-            let now = +new Date()
-            if(last && last + delay > now ) {
-                return
-            }
-            else {
-                last = now
-                fn.apply(that,_args)
-            }
-        }
-    },
-
     
 
     createValine() {
@@ -102,26 +81,37 @@ export default defineComponent({
   
 
     imgLazyLoad() {
+      //console.log('imglazy')
       let deleteIndex = []
       this.imgList.forEach((item, index) => {
-      //console.log(s.top)
-        if((item.offsetTop - 480) < document.documentElement.scrollTop || document.body.scrollTop) {
+
+        let rect = item.getBoundingClientRect()
+        if((rect.top + window.scrollY - 720) < document.documentElement.scrollTop || document.body.scrollTop) {
           item.src = item.dataset.src
           console.log(item.dataset.src)
           deleteIndex.push(index)
           this.imgcount--;
-          if(this.imgcount == 0) {
-            window.removeEventListener('scroll', this.imgLazyLoad)
-            }
           }
           })
+          if(this.imgcount == 0) {
+            window.removeEventListener('scroll', this.lazy_img)
+          }
           this.imgList = this.imgList.filter((item, index) => !deleteIndex.includes(index))
-        }
+    },
+
+    aa() {
+      throttle(this.imgLazyLoad, 100)
+    }
+
+
+
     
   },
   mounted() {
-
-    window.addEventListener('scroll', this.throttle(this.imgLazyLoad,100));
+    console.log('this.imgList')
+    this.lazy_img = throttle(this.imgLazyLoad, 100)
+    //window.addEventListener('scroll', throttle(this.imgLazyLoad,100));
+    window.addEventListener('scroll',this.lazy_img);
      this.createValine()
      //锚点初始化
      this.$store.commit('init_anchorsinfo',this.anchors_info);
@@ -145,8 +135,9 @@ export default defineComponent({
             this.$nextTick(function(){
               this.imgList = [...this.$refs.preview.$el.querySelectorAll('img')].slice(4);
               this.imgcount = this.imgList.length
+              console.log(this.imgcount)
               //console.log(this.imgList)
-              const anchors = this.$refs.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
+              const anchors = this.$refs.preview.$el.querySelectorAll('h2');
               //console.log(anchors)
               const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
               //console.log(titles)
@@ -244,8 +235,9 @@ export default defineComponent({
 @media screen and (max-width: 800px) {
     
     .article {
-      width: 81vw;
-      margin: 0 1vw 0 6vw;
+      width: 97.7vw;
+      margin: 0 0vw 0 -2vw;
+
       
       
     }

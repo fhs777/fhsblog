@@ -81,15 +81,18 @@ export default {
 
 <style scoped>
 
+
 .article {
+    width: 62vw;
+    margin-top: 4vh;
+    position: relative;
     text-align: left;
-    margin: 4vh 0 2vh 8vw;
+    padding: 2vw;
     min-height: 20vh;
-    padding: 24px;
     background: #ffffff;
     box-shadow: 0px 0px 15px #b3b3b3;
+    
 }
-
 .sider {
   margin-top: 4vh;
   margin-right: 12vw;
@@ -116,5 +119,17 @@ export default {
 
 .listHeader {
   font-size: 1.8rem;
+}
+
+@media screen and (max-width: 800px) {
+    
+    .article {
+      width: 96vw;
+      margin: 4vh 0 0 0vw;
+
+      
+      
+    }
+
 }
 </style>
