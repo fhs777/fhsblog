@@ -98,7 +98,7 @@ export default defineComponent({
   text-align: center;
   flex: 0 5 70vw;
   width: 100%;
-  padding: 4vh 4vw 2vh 10vw;
+  padding: 8vh 4vw 2vh 10vw;
   margin-top: 8vh ;
   min-height: 100%;
   background: rgb(244, 244, 244);

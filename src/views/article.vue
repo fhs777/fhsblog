@@ -8,7 +8,8 @@
 
         <v-md-preview :text="text" ref="preview" style="font-size = 1rem" ></v-md-preview>
 
-        <div id="vcomments"  ></div>
+        <!--<div id="vcomments"></div>-->
+        <comment></comment>
       </div>
 
 
@@ -22,6 +23,7 @@ import { throttle } from '../utils/index'
 
 //const yibu = () => import('./yibu.vue');
 const articleInfo = defineAsyncComponent(() => import('../components/articleInfo'))
+const comment = defineAsyncComponent(() => import('../components/comments'))
 // articleInfo = defineAsyncComponent(() => import('../components/articleInfo.vue'))
 //import  personalInfo  from '../components/personalInfo.vue'
 //import  articleinfo  from '../components/articleinfo.vue'
@@ -57,10 +59,11 @@ export default defineComponent({
   components: {  
       //yibu,
       articleInfo,
+      comment,
     },
   methods: {
     
-
+/*
     createValine() {
       const Valine = require('valine');
 
@@ -77,7 +80,7 @@ export default defineComponent({
       });
       this.valineRefresh = false
     },
-
+ */
   
 
     imgLazyLoad() {
@@ -112,7 +115,7 @@ export default defineComponent({
     this.lazy_img = throttle(this.imgLazyLoad, 100)
     //window.addEventListener('scroll', throttle(this.imgLazyLoad,100));
     window.addEventListener('scroll',this.lazy_img);
-     this.createValine()
+     //his.createValine()  Valine评论系统
      //锚点初始化
      this.$store.commit('init_anchorsinfo',this.anchors_info);
   },
@@ -186,6 +189,7 @@ export default defineComponent({
 .article {
     width: 62vw;
     position: relative;
+    padding-bottom: 2vh;
     text-align: left;
     min-height: 20vh;
     background: #ffffff;
@@ -228,18 +232,15 @@ export default defineComponent({
   
 }
 
-#vcomments {
-  margin: 0 20px 0 20px;
-}
+
+
 
 @media screen and (max-width: 800px) {
     
     .article {
       width: 97.7vw;
       margin: 0 0vw 0 -2vw;
-
-      
-      
+ 
     }
 
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="anchor">
+  <div class="anchor" :class="{anchormove: !anchor_move}">
               <div
               v-for="(anchor, index)  in anchors_info.item"
               :key="anchor.index"
@@ -49,7 +49,15 @@ export default ({
 
     },
 
-      mounted() {
+
+
+    computed: {
+      anchor_move() {
+        return this.$store.state.header_show  
+      }
+    },
+
+    mounted() {
 
         window.addEventListener('scroll', throttle(this.dataScroll,100));
         //console.log('anchors_info')
@@ -61,6 +69,9 @@ export default ({
       },
 
     watch: {
+       anchor_move(newState) {
+        console.log(newState)
+      },
      scroll: 'loadScroll',   
     },
 
@@ -71,14 +82,18 @@ export default ({
 <style scoped>
   .anchor {
     position: sticky;
-    top: 11vh;
+    top: 5vh;
     margin-top: 2vh;
     width: 100%;
     text-align: left;
     color: rgb(0, 0, 0);
     background: #ffffff;
+    transition: all 0.2s;
     box-shadow: 0px 0px 15px #b3b3b3;
-    z-index: 3000;
+  }
+
+  .anchormove {
+    top: 15vh;
   }
 
   .anchor div {

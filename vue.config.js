@@ -45,7 +45,8 @@ module.exports = {
  
         '/api': {
          
-            target: 'http://120.27.150.44:3000',
+            //target: 'http://120.27.150.44:3000',
+            target: 'http://localhost:3000',
             
             changeOrigin: true,
 

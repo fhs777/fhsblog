@@ -4,7 +4,7 @@
     <transition name="header">
     <a-layout-header 
     class="header"
-    :class="{header_fixed: show}">
+    :class="{header_fixed: header_show}">
     <div class="logo"></div>
 
       <div class="menu">
@@ -87,7 +87,7 @@ export default defineComponent({
       contents_page:[],
       head_show: 'fixed',
       scroll_top: 0,
-      show: false,    //header头部
+      header_show: false,    //header头部
       d_show: false, //控制遮罩显示与否
       d_showcopy: false, //控制遮罩淡入淡出效果
       search_text:'',
@@ -137,8 +137,11 @@ export default defineComponent({
             that.d_showcopy = newState
           },0)
         }
-
       },
+
+      header_show(newState) {
+        this.$store.commit('change_headershow',newState)
+      }
 },
 
   methods: {
@@ -163,10 +166,10 @@ export default defineComponent({
       this.scroll_top = scrolltop
       //console.log('scroll')
       if(scroll > 0) {
-        this.show = true
+        this.header_show = true
       }
       else {
-        this.show = false
+        this.header_show = false
       }
     },
 
