@@ -13,6 +13,8 @@
         <span @click="handleClick('technology')">技术</span>
         <span @click="handleClick('daily')">随笔</span>
         <span @click="handleClick('time_line')">归档</span>
+        <span @click="showRegisterModal()">登录</span>
+        <span @click="showSomething()">dd</span>
         <span @click="showSearchmodal()" class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
         <span class="s_svg" @click="drawer_show(true)"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
@@ -51,6 +53,38 @@
         </a-list>  
     </a-modal>
 
+    <a-modal 
+      v-model:visible="registerModalShow" 
+      :title="modalStatusIsLogin ? '登录' : '注册账号'">
+
+      <template #footer>
+        <div class="modalButton">
+          <span v-if="modalStatusIsLogin" style="flex: 1 1 auto; text-align: left" >
+            <a-button key="back" @click="modalStatusChange">没有账号?去注册</a-button>
+          </span>
+          <a-button key="back" @click="submitHandleCancel">取消</a-button>
+          <a-button key="submit" type="primary"  @click="submitOrlogin">
+            {{ modalStatusIsLogin ? '登录' : '注册账号' }}
+          </a-button>
+        </div>
+      </template> 
+
+        <p style="margin-bottom: 15px;">
+          <input 
+          class="submit_class" 
+          type="text" 
+          placeholder="账号"
+          v-model="submit_account">
+        </p>
+        <p style="margin-bottom: 5px;">
+          <input 
+          class="submit_class" 
+          type="text" 
+          placeholder="密码"
+          v-model="submit_password">
+        </p>
+    </a-modal>
+
   
     <div class="mask"  v-show="d_show" :class="{mask_opacity: d_showcopy}"  @click="drawer_show(false)">
     </div>
@@ -74,8 +108,9 @@
 
 </template>
 <script>
-import { getarticles } from './api/api'
+import { getarticles, accountSubmit, login } from './api/api'
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
+import { message } from 'ant-design-vue';
 import { throttle } from './utils';
 const personalInfo = defineAsyncComponent(() => import('./components/personalInfo.vue'))
 
@@ -97,14 +132,91 @@ export default defineComponent({
     }
   },
 
-  setup() {
+   props: {
+    title: String
+  },  
+
+  setup() { 
     const visible = ref(false);
+    const registerModalShow = ref(false); //注册登录弹窗状态控制
+    const registerModalStatus = ref('login');
     const selectedKeys = ref(['1']);
+    const submit_account = ref('')  //注册账号
+    const submit_password = ref('')  //注册密码
 
     const showSearchmodal = () => {
       visible.value = true;
       console.log('showmodal')
     };
+
+    const showRegisterModal = () => {
+      registerModalShow.value = true;
+    }
+
+    const submitHandleCancel = () => {
+      registerModalShow.value = false;
+    }
+
+    const modalStatusChange = () => { //改变注册登录弹窗显示状态
+      registerModalStatus.value = 'register'
+    }
+
+
+    const submitOrlogin = () => {
+      if( registerModalStatus.value == 'login') {
+        //console.log('login')
+        loginHandleOk();
+      }
+      else {
+        //console.log('reg')
+        submitHandleOk();
+      }
+    }
+
+    const loginHandleOk = () => {
+      let params = {account: submit_account.value, pass: submit_password.value}
+      console.log('params', params);
+      
+      if(params.account && params.pass) {
+        login (params).then(res => {
+          console.log('res', res)
+          if(res.data.code == 1) {
+            message.success('登录成功')
+            submitHandleCancel()
+            submit_account.value = ''
+            submit_password.value = ''
+          }
+          else {
+            message.warning('账号或密码错误，登陆失败');
+          }
+        })
+      }
+      else {
+        message.warning('请将账号信息填写完整');
+      }
+    }
+
+    const submitHandleOk = () => {   //调用注册/登录接口
+      let params = {account: submit_account.value, pass: submit_password.value}
+      console.log('params', params);
+      
+      if(params.account && params.pass) {
+        accountSubmit(params).then(res => {
+          console.log('res', res)
+          if(res.status == 200) {
+            message.success('注册成功')
+            submitHandleCancel()
+            submit_account.value = ''
+            submit_password.value = ''
+          }
+        })
+      }
+      else {
+        message.warning('请将账号信息填写完整');
+      }
+      
+      
+    }
 
     const pagination = {
       pageSize: 5,
@@ -113,9 +225,19 @@ export default defineComponent({
 
      return {
       visible,
+      registerModalShow,
+      registerModalStatus,
       selectedKeys,
       pagination,
+      submit_account,
+      submit_password,
+      modalStatusChange,
       showSearchmodal,
+      showRegisterModal,
+      submitHandleCancel,
+      submitHandleOk,
+      loginHandleOk,
+      submitOrlogin,
 
     };
 
@@ -211,6 +333,17 @@ export default defineComponent({
       console.log(this.contents)
     },
 
+    showSomething() {
+      console.log('user状态管理 啊我是')
+      console.log(this.$store.state.user.account)
+    }
+
+  },
+  
+  computed: {
+    modalStatusIsLogin() {
+      return this.registerModalStatus == 'login' 
+    },
   },
 
   created() {
@@ -286,6 +419,19 @@ export default defineComponent({
   width: 100%;
   border-radius: 15px;
   padding-left: 20px;
+}
+
+.submit_class {
+  height: 35px;
+  width: 100%;
+  padding-left: 20px;
+  border-radius: 5px;
+  border: 2px solid rgb(141, 141, 141);
+}
+
+.modalButton {
+  display: flex;
+  justify-content: end;
 }
 
 

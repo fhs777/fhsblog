@@ -9,7 +9,7 @@
         <v-md-preview :text="text" ref="preview" style="font-size = 1rem" ></v-md-preview>
 
         <!--<div id="vcomments"></div>-->
-        <comment></comment>
+        <comment :article_id = "article_id" :article_title = "article_info.title"></comment>
       </div>
 
 
@@ -32,6 +32,7 @@ const comment = defineAsyncComponent(() => import('../components/comments'))
 export default defineComponent({
   data() {
     return {
+      article_id: '',
       text: '',
       article_info:{
         post_date: '',
@@ -124,7 +125,8 @@ export default defineComponent({
     document.documentElement.scrollTop = 0;
     console.log('created1')
     console.log(window.location.pathname);
-     getarticle(this.$route.query.articleid)
+    this.article_id = this.$route.query.articleid
+     getarticle(this.article_id)
       .then((res) => {
             this.text = res.data.text
             this.article_info.post_date = res.data.post_date
@@ -164,7 +166,7 @@ export default defineComponent({
               console.log(this.anchors_info.item)
               console.log('top')
               console.log(this.anchors_info.top)
-               window.scrollTo(0, 0)
+              window.scrollTo(0, 0)
             })
 
 

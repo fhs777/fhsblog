@@ -69,10 +69,7 @@ export default ({
       },
 
     watch: {
-       anchor_move(newState) {
-        console.log(newState)
-      },
-     scroll: 'loadScroll',   
+        scroll: 'loadScroll',   
     },
 
 

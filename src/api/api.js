@@ -8,6 +8,10 @@ export function getuser(params) {
     return http.get('/api/user', params)
 }
 
+export function accountSubmit(params) {   //账号注册
+    return http.post('/api/user', params)
+}
+
 export function getarticles(params) {  //获取所有文章
     return http.get('/api/articles', params)
 }
@@ -24,7 +28,12 @@ export function categoryget() {
     return http.get('/api/get_category')
 }
 
-export function article_edit(params) {
-    return http.put('/api/article_edit/'+params._id, params)
+export function get_comments(id) {
+    return http.get('/api/comment/'+id)
 }
+
+export function comment_write(params) {
+    return http.post('/api/comment_write', params)
+}
+
 

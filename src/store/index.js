@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { categoryget } from '../api/api'
+import { user } from './modules/user'
 
 export default createStore({
   state: {
@@ -46,5 +47,6 @@ export default createStore({
 
   },
   modules: {
+    user,
   }
 })

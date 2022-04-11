@@ -2,49 +2,67 @@
     <div id="vcomments">
       <div class="input_and_submit">
         <a-textarea v-model:value="value" placeholder="Basic usage" :rows="6" />
-        <a-button type="primary" class="submit">发表评论</a-button>
+        <a-button type="primary" class="submit" @click="write_comment()">发表评论</a-button>
       </div>
+
+    <a-modal 
+      v-model:visible="reply_comment" >
+        <p>评论框</p> 
+          <a-input v-model:value="reply" disabled placeholder="Basic usage" style="margin-bottom: 10px" />
+        <a-textarea v-model:value="value" placeholder="Basic usage" :rows="6" />   
+       <template #footer>
+        <!-- <a-button key="back" @click="handleCancel">取消</a-button> -->
+        <a-button key="submit" type="primary"  @click="reply_to()">确认</a-button>
+      </template>
+    </a-modal>
     
     <div class="comments">
     <a-list
         class="comment-list"
-        :header="`${data.length} replies`"
+        :header="`${this.data1.length} replies`"
         item-layout="horizontal"
-        :data-source="data"
+        :data-source="this.data1"
     >
 
     <template #renderItem="{ item }">
 
       <a-list-item>
         <a-comment 
-          :author="item.author" 
+          :author="item.user_name" 
           :avatar="item.avatar"
           :content="item.content">
 
           <template #actions>
-            <span v-for="(action, index) in item.actions" :key="index">{{ action }}</span>
+            <span v-for="(action, index) in item.actions" :key="index" @click="show_reply(item)">{{ action }}</span>
           </template>
 
           <template #datetime>
-            <a-tooltip :title="item.datetime.format('YYYY-MM-DD HH:mm:ss')">
-              <span>{{ item.datetime.fromNow() }}</span>
+            <a-tooltip :title="item.date">
+              <span>{{ item.date }}</span>
             </a-tooltip>
           </template>
             
             <!-- 嵌套子评论-->
         <a-comment
-            v-for="subcom in item.subcomments"
+            v-for="subcom in item.subcomment"
             :key="subcom.index"
             :subcom="subcom"
             :avatar="subcom.avatar"
-            :author="subcom.author"
-            :content="subcom.content"
-            :datetime="subcom.datetime +' '+ subcom.datetime">
+            :author="subcom.user_name"
+            :datetime="subcom.date +' '+ subcom.date">
 
-            <template #actions>
-            <span v-for="(action, index) in subcom.actions" :key="index">{{ action }}</span>
+            <template #content>
+              <p>
+                <span v-if="subcom.reply" class="reply_comment">
+                  @{{ subcom.reply}}
+                </span>
+                {{ subcom.content}}
+              </p>
             </template>
 
+            <template #actions>
+            <span v-for="(action, index) in subcom.actions" @click="show_reply(subcom)" :key="index">{{ action }}</span>
+            </template>
         </a-comment>
 
           
@@ -59,69 +77,120 @@
 
 <script>
 import dayjs from 'dayjs';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, } from 'vue';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { get_comments, comment_write } from '../api/api'
 dayjs.extend(relativeTime);
 
 export default defineComponent({
-    setup() {
 
-      const likes = ref(0);
-      const dislikes = ref(0);
-      const action = ref();
-      const value = ref('');
-
-      const like = () => {
-        likes.value = 1;
-        dislikes.value = 0;
-        action.value = 'liked';
-      };
-
-
-    return {
-      value,
-         data: [
+    data() {
+      return {
+        value: '',
+        reply_comment: null,
+        edit_comment: {},
+        reply: '',  //回复人
+        parent_id: null,  //子评论父级评论id
+        data1: [
         {
           actions: ['Reply to'],
-          author: 'Han Solo',
+          user_name: 'Han Solo',
           avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           content:'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-          datetime: dayjs().subtract(1, 'days'),
-          subcomments: [
+          date: '2021-10-11',
+          subcomment: [
               {
                 actions: ['回复'],
-                author: 'ffhs',
+                user_name: 'ffhs',
                 avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
                 content:'just say fhs all right.',
-                datetime: '2021-10-11',
+                date: '2021-10-11',
               },
               {
                 actions: ['回复'],
-                author: 'qzw',
+                user_name: 'qzw',
                 avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
                 content:'我不知道要说些什么，但是我知道我必须要做点什么。',
-                datetime: '2021-10-11',
+                date: '2021-10-11',
               }
           ]
         },
         {
           actions: ['Reply to'],
-          author: 'Han Solo',
+          user_name: 'Han Solo',
           avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           content:
             'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-          datetime: dayjs().subtract(2, 'days'),
+          date: '2021-10-11',
         },
-      ],
-      likes,
-      dislikes,
-      action,
-      like,   
-      dayjs,
-    };
+      ], 
+      }
     },
-    components: {
-  },
+
+    props: {
+        article_id: String,
+        article_title: String,
+    },
+
+    methods: {
+      write_comment(parent_id, reply) {
+        this.edit_comment = {
+          article_id: this.article_id,
+          article_title: this.article_title,
+          user_name: 'qzw',
+          user_id: '888',
+          date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          address: '广西省桂林市',
+          equipment: 'chrome',
+          content: this.value,
+          parent_id: parent_id || null,
+          reply: reply || null,
+          subcomment: [],
+        }
+        console.log(this.article_id, this.article_title, dayjs().format('YYYY-MM-DD HH:mm:ss'))
+
+        comment_write(this.edit_comment).then((res) => {
+          console.log(res)
+          if(res.data) {
+            alert('成功!');
+          }
+          else {
+            alert('失败');
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+        this.edit_comment = {}
+      },
+
+      show_reply(item) {
+        console.log(item)
+        this.value = ''
+        this.reply = item.user_name
+        this.parent_id = item.parent_id || item._id
+        this.reply_comment = true
+
+      },
+
+      reply_to() {
+        this.write_comment(this.parent_id, this.reply)
+         this.reply = null
+        this.parent_id = null
+      }
+       
+    },
+
+    created() {
+      get_comments(this.article_id)
+      .then(res => {
+        this.data1 = (res.data)
+        console.log('data1',res.data)
+      }).catch(error => {
+        console.log(error);
+      })  
+      
+    }
+
 })
 </script>
 
@@ -146,5 +215,10 @@ export default defineComponent({
 
 .comments {
     width: 100%;
+}
+
+.reply_comment {
+  color: rgb(12, 12, 206);
+  font-size: small;
 }
 </style>
