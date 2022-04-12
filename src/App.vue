@@ -212,7 +212,7 @@ export default defineComponent({
         })
       }
       else {
-        message.warning('请将账号信息填写完整');
+        message.warning('请将账号信息填写完整!');
       }
       
       
