@@ -13,8 +13,19 @@
         <span @click="handleClick('technology')">技术</span>
         <span @click="handleClick('daily')">随笔</span>
         <span @click="handleClick('time_line')">归档</span>
-        <span @click="showRegisterModal()">登录</span>
-        <span @click="showSomething()">dd</span>
+        <span v-if="userIsLogin == false" @click="showRegisterModal()">登录</span>
+        <a-dropdown v-else>
+          <a class="ant-dropdown-link" @click.prevent>
+            {{ userName }}
+          </a>
+          <template #overlay>
+            <a-menu @click="userOnClick">
+              <a-menu-item key="logOut"> 
+                退出登录
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
         <span @click="showSearchmodal()" class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
         <span class="s_svg" @click="drawer_show(true)"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
@@ -126,9 +137,11 @@ export default defineComponent({
       d_show: false, //控制遮罩显示与否
       d_showcopy: false, //控制遮罩淡入淡出效果
       search_text:'',
+      registerModalStatus: 'login',
       loacle: {
         emptyText: '暂无数据'
-      }
+      },
+      
     }
   },
 
@@ -139,7 +152,6 @@ export default defineComponent({
   setup() { 
     const visible = ref(false);
     const registerModalShow = ref(false); //注册登录弹窗状态控制
-    const registerModalStatus = ref('login');
     const selectedKeys = ref(['1']);
     const submit_account = ref('')  //注册账号
     const submit_password = ref('')  //注册密码
@@ -157,87 +169,20 @@ export default defineComponent({
       registerModalShow.value = false;
     }
 
-    const modalStatusChange = () => { //改变注册登录弹窗显示状态
-      registerModalStatus.value = 'register'
-    }
-
-
-    const submitOrlogin = () => {
-      if( registerModalStatus.value == 'login') {
-        //console.log('login')
-        loginHandleOk();
-      }
-      else {
-        //console.log('reg')
-        submitHandleOk();
-      }
-    }
-
-    const loginHandleOk = () => {
-      let params = {account: submit_account.value, pass: submit_password.value}
-      console.log('params', params);
-      
-      if(params.account && params.pass) {
-        login (params).then(res => {
-          console.log('res', res)
-          if(res.data.code == 1) {
-            message.success('登录成功')
-            submitHandleCancel()
-            submit_account.value = ''
-            submit_password.value = ''
-          }
-          else {
-            message.warning('账号或密码错误，登陆失败');
-          }
-        })
-      }
-      else {
-        message.warning('请将账号信息填写完整');
-      }
-    }
-
-    const submitHandleOk = () => {   //调用注册/登录接口
-      let params = {account: submit_account.value, pass: submit_password.value}
-      console.log('params', params);
-      
-      if(params.account && params.pass) {
-        accountSubmit(params).then(res => {
-          console.log('res', res)
-          if(res.status == 200) {
-            message.success('注册成功')
-            submitHandleCancel()
-            submit_account.value = ''
-            submit_password.value = ''
-          }
-        })
-      }
-      else {
-        message.warning('请将账号信息填写完整!');
-      }
-      
-      
-    }
-
     const pagination = {
       pageSize: 5,
     };
 
-
      return {
       visible,
       registerModalShow,
-      registerModalStatus,
       selectedKeys,
       pagination,
       submit_account,
       submit_password,
-      modalStatusChange,
       showSearchmodal,
       showRegisterModal,
       submitHandleCancel,
-      submitHandleOk,
-      loginHandleOk,
-      submitOrlogin,
 
     };
 
@@ -333,9 +278,95 @@ export default defineComponent({
       console.log(this.contents)
     },
 
-    showSomething() {
-      console.log('user状态管理 啊我是')
-      console.log(this.$store.state.user.account)
+
+    submitOrlogin() {
+      if( this.registerModalStatus == 'login') {
+        //console.log('login')
+        this.loginHandleOk();
+      }
+      else {
+        //console.log('reg')
+        this.submitHandleOk();
+      }
+    },
+
+
+    modalStatusChange () { //改变注册登录弹窗显示状态
+      this.registerModalStatus = 'register'
+    },
+
+
+    loginHandleOk() {
+      let params = {account: this.submit_account, pass: this.submit_password}
+      console.log('params', params);
+      
+      if(params.account && params.pass) {
+        login (params).then(res => {
+          console.log('res', res)
+          if(res.data.code == 1) {
+            message.success('登录成功')
+            this.submitHandleCancel()
+            this.submit_account = ''
+            this.submit_password = ''
+
+            let userInfo = {
+              user_name: params.account,
+              user_id: res.data.user_id,
+            }
+
+            window.localStorage.setItem('fhsblogUser', JSON.stringify(userInfo))
+            userInfo['address'] = '浙江省嘉兴市'
+            userInfo['equipment'] = 'chrome'
+
+            this.$store.commit('user/userInfoSet', userInfo)
+            this.$store.commit('user/loginStateChange', true)
+            
+
+          }
+          else {
+            message.warning('账号或密码错误，登陆失败');
+          }
+        })
+      }
+      else {
+        message.warning('请将账号信息填写完整');
+      }
+    },
+
+
+     submitHandleOk() {   //调用注册/登录接口
+      let params = {account: this.submit_account, pass: this.submit_password}
+      console.log('params', params);
+      
+      if(params.account && params.pass) {
+        accountSubmit(params).then(res => {
+          console.log('res', res)
+          if(res.status == 200) {
+            message.success('注册成功')
+            this.submitHandleCancel()
+            this.submit_account = ''
+            this.submit_password = ''
+
+          }
+        })
+      }
+      else {
+        message.warning('请将账号信息填写完整!');
+      }
+      
+      
+    },
+
+    userOnClick(click) {
+      console.log('user状态管理 啊我是key', click.key)
+      console.log(this.$store.state.user)
+      if(click.key == 'logOut') {
+        this.$store.commit('user/loginStateChange', false)
+        this.$store.commit('user/initUserInfo')
+        window.localStorage.clear()
+        
+      }
+      
     }
 
   },
@@ -344,12 +375,28 @@ export default defineComponent({
     modalStatusIsLogin() {
       return this.registerModalStatus == 'login' 
     },
+    userIsLogin() {
+      return this.$store.state.user.loginState
+    },
+    userName() {
+      return this.$store.state.user.user_name
+    }
   },
 
   created() {
     //console.log('initialize_category1')
    // this.$store.dispatch('initialize_category')
     //window.addEventListener('scroll', throttle(this.headershow),200);
+    let userInfo = JSON.parse(window.localStorage.getItem('fhsblogUser'))
+    if(userInfo) {
+      console.log(111)
+      userInfo['address'] = '浙江省嘉兴市'
+      userInfo['equipment'] = 'chrome'
+      this.$store.commit('user/userInfoSet', userInfo)
+      this.$store.commit('user/loginStateChange', true)
+    }
+    console.log('userinfo')
+    console.log(userInfo)
   },
 
   mounted() {  //不触发，原因暂时未知
