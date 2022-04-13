@@ -49,7 +49,7 @@
             :subcom="subcom"
             :avatar="subcom.avatar"
             :author="subcom.user_name"
-            :datetime="subcom.date +' '+ subcom.date">
+            :datetime="subcom.date">
 
             <template #content>
               <p>
@@ -134,14 +134,18 @@ export default defineComponent({
 
     methods: {
       write_comment(parent_id, reply) {
+        if(!this.loginState) {
+          alert('请先登录');
+          return 
+        }
         this.edit_comment = {
           article_id: this.article_id,
           article_title: this.article_title,
-          user_name: 'qzw',
-          user_id: '888',
+          user_name: this.user_name,
+          user_id: this.user_id,
           date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          address: '广西省桂林市',
-          equipment: 'chrome',
+          address: this.address,
+          equipment: this.equipment,
           content: this.value,
           parent_id: parent_id || null,
           reply: reply || null,
@@ -152,10 +156,10 @@ export default defineComponent({
         comment_write(this.edit_comment).then((res) => {
           console.log(res)
           if(res.data) {
-            alert('成功!');
+            alert('评论成功!');
           }
           else {
-            alert('失败');
+            alert('评论失败');
           }
         }).catch((error) => {
           console.log(error);
@@ -178,6 +182,24 @@ export default defineComponent({
         this.parent_id = null
       }
        
+    },
+
+    computed: {
+      address() {
+        return this.$store.state.user.address
+      },
+      equipment() {
+        return this.$store.state.user.equipment
+      },
+      user_name() {
+        return this.$store.state.user.user_name
+      },
+      user_id() {
+        return this.$store.state.user.user_id
+      },
+      loginState() {
+        return this.$store.state.user.loginState
+      }
     },
 
     created() {

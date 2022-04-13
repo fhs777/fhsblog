@@ -30,8 +30,8 @@ export const user = {
       initUserInfo(state) {
         state.user_name=''
         state.user_id= ''
-        state.address= ''
-        state.equipment= ''
+        state.address= '浙江省嘉兴市'
+        state.equipment= 'chrome'
       }
     }
     
