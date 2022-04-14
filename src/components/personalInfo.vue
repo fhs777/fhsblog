@@ -17,6 +17,15 @@
       <img src='/微信.svg' width="40">
     </div>
 
+    <div class="welcomeInfo">
+      <div class="welcomeTitle">
+      相见恨晚
+      </div>
+      <div>您的ip：{{' '+ this.userIp }}</div>
+      <div>您的地址：{{' '+ this.userAddress}}</div>
+    </div>
+    
+
     <div style="margin-top: 5px">
       <div class="headcontainer">
           <span class="headline">文章</span>
@@ -42,6 +51,9 @@
 <script>
 
 export default {
+    props: {
+      
+    },
     data() {
       return {
          fhsname: 'fhsfhs',
@@ -57,25 +69,40 @@ export default {
         this.$router.push('/tags')
       }
     },
-    props: {
-      
-    },
-    setup() {
-        
-    },
+    
+    computed: {
+      userIp() {
+        return this.$store.state.user.user_ip
+      },
+      userAddress() {
+        return this.$store.state.user.address
+       }
+    }
 }
 </script>
 
 <style lang="less" scoped >
-@color: red;
+@theme-color: rgb(14, 136, 250);
 
 .personal_info {
   text-align: center;
   color: rgb(0, 0, 0);
+  padding: 0 15px;
   min-height: 4vh;
   line-height: 2rem;
-  background: #ffffff;
-  box-shadow: 0px 0px 15px #b3b3b3;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(242, 235, 235);
+  box-shadow: white 0px 0px 10px;
+  border-radius: 5px;
+
+  .welcomeInfo {
+    text-align: left;
+    .welcomeTitle{
+      font-size: 16px;
+      border-radius: 5px;
+      border-bottom: 1px solid @theme-color;
+    }
+  }
 }
 .imgborder {
   margin-top: 4vh;
@@ -92,8 +119,8 @@ export default {
 }
 
 .authorInfo {
-  font-size: 12px;
-  height: 20px;
+  font-size: 13px;
+  //height: 20px;
   line-height: 20px;
 }
 
@@ -124,7 +151,6 @@ export default {
   margin: 0 6%;
 
   color: #666666;
-  color: @color ;
 }
 
 

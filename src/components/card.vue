@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" @mouseover="mouseOver" @mouseleave="mouseLeave" :class="{ cardActive: isActive }">
         <p @click="readarticle(content.id)">{{ content.title}}</p>
         <label>{{ content.introduction }}
         </label>
@@ -13,19 +13,28 @@
 <script>
 
 export default {
-    methods: {
-        readarticle(id) {
-            console.log(id);
-            this.$router.push({path: '/article',  query: { articleid: id } })
-            
-        }
-    },
     props: {
         content: Object
     },
-    setup() {
-        
+    data() {
+        return {
+            isActive: false,
+        }
     },
+    methods: {
+        readarticle(id) {
+            console.log(id);
+            this.$router.push({path: '/article',  query: { articleid: id } })          
+        },
+        mouseOver() {
+            console.log('mouseOver')
+            this.isActive = true
+        },
+        mouseLeave() {
+            this.isActive = false
+        }
+    },
+    
 }
 </script>
 
@@ -34,15 +43,20 @@ export default {
 .card {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
     text-align: left;
-    margin: 0 0 4vh 0;
+    margin: 0 0 10px 0;
     min-height: 25vh;
     padding: 20px 20px 12px;
     background: #ffffff;
    
-    box-shadow: 0px 0px 15px #b3b3b3;
-    border-radius: 7px;
+    /*box-shadow: 0px 0px 15px #b3b3b3;
+    border-radius: 7px;*/
     
+}
+
+.cardActive {
+    box-shadow: 0px 0px 10px 1px #b5b5b570;
 }
 
 .card p {

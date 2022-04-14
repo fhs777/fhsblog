@@ -1,15 +1,17 @@
 <template>
-    <card 
-        v-for="content in contentspage"
-        :key="content.index"
-        :content="content"></card>
-        
-    <a-pagination 
-        :style="{ margin: '4vh 0 1vh 0'}"
-        :total="totalArts" 
-        :page-size="5"
-        @change="onPagechange">
-    </a-pagination>
+    <div class="cardlistContainer">
+      <card 
+          v-for="content in contentspage"
+          :key="content.index"
+          :content="content"></card>
+          
+      <a-pagination 
+          :style="{ margin: '4vh 0 1vh 0'}"
+          :total="totalArts" 
+          :page-size="5"
+          @change="onPagechange">
+      </a-pagination>
+    </div>
 </template>
 
 <script>
@@ -69,3 +71,12 @@ export default {
     
 }
 </script>
+
+<style lang="less" scoped>
+  .cardlistContainer {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgb(242, 235, 235);
+    box-shadow: white 0px 0px 10px;
+    border-radius: 5px;
+  }
+</style>

@@ -6,6 +6,7 @@ export const user = {
       loginState: false,
       user_name: '',
       user_id: '',
+      user_ip: '',
       address: '',
       equipment: '',
 
@@ -18,9 +19,19 @@ export const user = {
     mutations: {
       userInfoSet(state, params) {
         state.user_name = params.user_name
-        state.user_id = params.user_id
-        state.address = params.address
-        state.equipment = params.equipment       
+        state.user_id = params.user_id  
+      },
+
+      userIpSet(state, ip) {
+        state.user_ip = ip
+      },
+
+      userAddressSet(state, address) {
+        state.address = address
+      },
+
+      userequipmentSet(state, equipment) {
+        state.equipment = equipment
       },
 
       loginStateChange(state, status) {
@@ -30,8 +41,8 @@ export const user = {
       initUserInfo(state) {
         state.user_name=''
         state.user_id= ''
-        state.address= '浙江省嘉兴市'
-        state.equipment= 'chrome'
+        state.address= ''
+        state.equipment= ''
       }
     }
     

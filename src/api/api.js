@@ -36,4 +36,8 @@ export function comment_write(params) {
     return http.post('/api/comment_write', params)
 }
 
+export function getIpName() {
+    return http.get('/getIpName')
+}
+
 

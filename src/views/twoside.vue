@@ -89,6 +89,7 @@ export default defineComponent({
 
 
 .main_container {
+  background-color: white;
   display: flex;
   flex-wrap: nowrap;
 
@@ -98,23 +99,24 @@ export default defineComponent({
   text-align: center;
   flex: 0 5 70vw;
   width: 100%;
-  padding: 8vh 4vw 2vh 10vw;
-  margin-top: 8vh ;
+  padding: 0vh 0.5vw 2vh 14vw;
+  margin-top: 11vh ;
   min-height: 100%;
-  background: rgb(244, 244, 244);
+
+ 
  
 }
 
 
 
 .sider {
-  flex: 0 3 18vw;
-  padding-top: 16vh;
+  flex: 0 3 15vw;
+  padding-top: 11vh;
   margin-right: 6vw;
   color: rgb(0, 0, 0);
   min-height: 60vh;
   line-height: 3vh;
-  background-color: rgb(244, 244, 244);
+  background-color: rgb(255, 255, 255);
 }
 
 .drawer {

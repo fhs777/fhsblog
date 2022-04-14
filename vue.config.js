@@ -44,20 +44,23 @@ module.exports = {
       proxy: {
  
         '/api': {
-         
             //target: 'http://120.27.150.44:3000',
-            target: 'http://localhost:3000',
-            
+            target: 'http://localhost:3000',         
             changeOrigin: true,
-
             ws: true,
-
             pathRewrite: {
-            
-            '^/api': '/api' // /prod-api 替换为空
-            
-            }
-         
+            '^/api': '/api' // /prod-api 替换为空        
+            }      
+        },
+
+        'getIpName': {
+          target: 'http://pv.sohu.com/cityjson',//搜狐的域名
+          ws: true,
+          changOrigin: true,//允许跨域
+          pathRewrite: {
+              '^/getIpName': ''//请求的时候使用这个api就可以
+          }
+
         },
          
         }

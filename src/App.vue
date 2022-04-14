@@ -119,7 +119,7 @@
 
 </template>
 <script>
-import { getarticles, accountSubmit, login } from './api/api'
+import { getarticles, accountSubmit, login, getIpName } from './api/api'
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { message } from 'ant-design-vue';
 import { throttle } from './utils';
@@ -315,8 +315,6 @@ export default defineComponent({
             }
 
             window.localStorage.setItem('fhsblogUser', JSON.stringify(userInfo))
-            userInfo['address'] = '浙江省嘉兴市'
-            userInfo['equipment'] = 'chrome'
 
             this.$store.commit('user/userInfoSet', userInfo)
             this.$store.commit('user/loginStateChange', true)
@@ -390,8 +388,6 @@ export default defineComponent({
     let userInfo = JSON.parse(window.localStorage.getItem('fhsblogUser'))
     if(userInfo) {
       console.log(111)
-      userInfo['address'] = '浙江省嘉兴市'
-      userInfo['equipment'] = 'chrome'
       this.$store.commit('user/userInfoSet', userInfo)
       this.$store.commit('user/loginStateChange', true)
     }
@@ -400,9 +396,22 @@ export default defineComponent({
   },
 
   mounted() {  //不触发，原因暂时未知
-     console.log('initialize_category1')
+    console.log('initialize_category1')
     this.$store.dispatch('initialize_category')
     window.addEventListener('scroll', throttle(this.headershow,100));
+
+    getIpName().then(res => {  //获取游客设备信息
+      console.log('ipipipip')
+      let result = res.data;
+      let location = result.substring(result.indexOf("{"), result.indexOf("}") +1 );
+      let json = JSON.parse(location)
+     
+      json.cip = json.cip.replace(/\./g, '. ')
+      json.cname = json.cname.replace('省', '省 ')
+      console.log(json)
+      this.$store.commit('user/userIpSet',json.cip)
+      this.$store.commit('user/userAddressSet',json.cname)
+    })
   }
 
  
@@ -414,15 +423,15 @@ export default defineComponent({
   background-color: rgb(255, 255, 255);
   position: fixed;
   z-index: 4;
-  height: 10vh;
+  height: 8vh;
   width: 100%;
   transition: all 0.5s ease 0.1s;
   z-index: 100;
-  box-shadow: 0px 0px 5px  black;
+  box-shadow: 0px 0px 2px  black;
 }
 
 .header_fixed {
-  transform: translateY(-10.2vh);
+  transform: translateY(-8.2vh);
 }
 
 
@@ -439,13 +448,13 @@ export default defineComponent({
   font-size: 0.95rem;
   float: right;
   position: relative;
-  line-height: 10vh;
+  line-height: 8vh;
   
 }
 
 .menu > span {
   display: inline-block;
-  height: 10vh - 2px;
+  height: 8vh - 2px;
   margin: 0 1vw 0 1vw;
   cursor: pointer;
 }
@@ -562,7 +571,7 @@ export default defineComponent({
     .menu > .s_svg {
       display: unset;
       display: inline-block;
-      height: 10vh - 2px;
+      height: 8vh - 2px;
       margin: 0 1vw 0 1vw;
       cursor: pointer;
 
