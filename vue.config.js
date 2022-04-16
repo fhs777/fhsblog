@@ -1,5 +1,6 @@
 var webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin');
+const path = require('path')
 module.exports = {
     // 公共路径(必须有的)
     publicPath: "/",
@@ -31,6 +32,13 @@ module.exports = {
        })
      ]
    },
+
+   pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, "src/common/variable.less")] // 引入全局样式变量
+    }
+},
 
 
 

@@ -19,9 +19,6 @@
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
 
-
-
-
 const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 
 export default defineComponent({
@@ -89,16 +86,15 @@ export default defineComponent({
 
 
 .main_container {
-  background-color: white;
   display: flex;
   flex-wrap: nowrap;
-
 }
 
 .laycontent {
   text-align: center;
   flex: 0 5 70vw;
   width: 100%;
+  margin-right: 1vw;
   padding: 0vh 0.5vw 2vh 14vw;
   margin-top: 11vh ;
   min-height: 100%;
@@ -110,13 +106,13 @@ export default defineComponent({
 
 
 .sider {
-  flex: 0 3 15vw;
+  flex: 0 3 16vw;
   padding-top: 11vh;
   margin-right: 6vw;
   color: rgb(0, 0, 0);
   min-height: 60vh;
   line-height: 3vh;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255, 0);
 }
 
 .drawer {
@@ -164,7 +160,7 @@ img {
 
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
   
     .sider {
       display: none;

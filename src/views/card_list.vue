@@ -46,6 +46,8 @@ export default {
         content.category = element.category;
         content.introduction = element.introduction;
         content.post_date = element.post_date;
+        content.last_update = element.last_update;
+        content.tags = element.tags;
         this.contents.push(content)
 
         timeline.id = element._id;

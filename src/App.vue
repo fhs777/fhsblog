@@ -1,6 +1,6 @@
 <template>
-
-  <a-layout :style="{  minHeight: '100vh' }" >
+  
+  <a-layout :style="{  minHeight: '100vh', backgroundColor: 'transparent' }" >
     <transition name="header">
     <a-layout-header 
     class="header"
@@ -112,7 +112,7 @@
 
    <router-view></router-view>
 
-    <a-layout-footer :style="{ textAlign: 'center' }">
+    <a-layout-footer :style="{ textAlign: 'center',  backgroundColor: 'transparent' }">
       fhs Blog ©2021 Created by fhs_7zw
     </a-layout-footer>
   </a-layout>
@@ -417,10 +417,10 @@ export default defineComponent({
  
 });
 </script>
-<style scoped>
+<style lang="less" scoped>
 
 .header {
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   position: fixed;
   z-index: 4;
   height: 8vh;
@@ -428,6 +428,7 @@ export default defineComponent({
   transition: all 0.5s ease 0.1s;
   z-index: 100;
   box-shadow: 0px 0px 2px  black;
+  //color: white;
 }
 
 .header_fixed {

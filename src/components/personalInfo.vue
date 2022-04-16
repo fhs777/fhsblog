@@ -1,8 +1,8 @@
 <template>
 <div class="personal_info">
    <img class="imgborder" src='/face.jpg' width="200">
-    <div class="authorName">魏择齐</div>
-
+    <div class="authorName">fhs_7zw</div>
+    <!--
     <div class="authorInfo schoolInfo"> 软件工程</div>
     <div class="authorInfo schoolInfo"> 2018-2022 学生</div>
 
@@ -12,21 +12,8 @@
     <div class="authorInfo otherInfo">邮箱：1570573782@qq.com</div>
 
     <a-divider><span style="font-size: 15px; color: #1277d5">社交账号</span></a-divider>
-    <div class="iconContainer">
-      <img src='/QQ.svg' width="40">
-      <img src='/微信.svg' width="40">
-    </div>
-
-    <div class="welcomeInfo">
-      <div class="welcomeTitle">
-      相见恨晚
-      </div>
-      <div>您的ip：{{' '+ this.userIp }}</div>
-      <div>您的地址：{{' '+ this.userAddress}}</div>
-    </div>
-    
-
-    <div style="margin-top: 5px">
+    -->
+     <div class="blogInfo" style="margin-top: 5px">
       <div class="headcontainer">
           <span class="headline">文章</span>
           <br/>
@@ -45,6 +32,23 @@
           <span class="length"> {{ Object.keys(this.$store.state.tags).length }} </span>
       </div>
     </div>
+
+    <div class="iconContainer">
+      <img src='/QQ.svg' width="30">
+      <img src='/微信.svg' width="30">
+    </div>
+
+<!--
+    <div class="welcomeInfo">
+      <div class="welcomeTitle">
+      相见恨晚
+      </div>
+      <div>您的ip：{{' '+ this.userIp }}</div>十件
+      <div>您的地址：{{' '+ this.userAddress}}</div>
+    </div>
+    
+-->
+   
 </div>
 </template>
 
@@ -82,7 +86,7 @@ export default {
 </script>
 
 <style lang="less" scoped >
-@theme-color: rgb(14, 136, 250);
+
 
 .personal_info {
   text-align: center;
@@ -91,8 +95,8 @@ export default {
   min-height: 4vh;
   line-height: 2rem;
   background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgb(242, 235, 235);
-  box-shadow: white 0px 0px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.615);
+  box-shadow: rgb(232, 232, 232) 0px 0px 10px;
   border-radius: 5px;
 
   .welcomeInfo {
@@ -112,10 +116,10 @@ export default {
 
 .authorName {
   margin-top: 8px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 1.15rem;
-  color: #1277d5
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: @theme-color;
 }
 
 .authorInfo {
@@ -134,23 +138,35 @@ export default {
 }
 
 .iconContainer {
+  margin-top: 5px;
   display: flex;
   height: 35px;
   line-height: 35px;
   justify-content: space-around;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 
-
+.blogInfo {
+  display: flex;
+  justify-content: space-around;
+}
 .headcontainer {
   display: inline-block;
   cursor: pointer;
   line-height: 4vh;
-  font-weight: 600;
   margin: 0 6%;
+  color: #32325d;
+  margin-bottom: 2vh;
 
-  color: #666666;
+  .headline {
+    font-size: .9rem;
+    font-weight: auto;
+  }
+  .length {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }
 
 
