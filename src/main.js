@@ -5,7 +5,7 @@ import App from './App';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 */
-import { Menu, Pagination, Layout, Input, Affix, List, Modal, Comment, Tooltip, Avatar, Button, Dropdown, Divider } from 'ant-design-vue';
+import { Menu, Pagination, Layout, Input, Affix, List, Modal, Comment, Tooltip, Avatar, Button, Dropdown, Divider, Form } from 'ant-design-vue';
 
 import router from './router'
 import store from './store'
@@ -36,6 +36,6 @@ Vue.config.errorHandler = (error, vm, info) => {
   console.info(info);
 };
 Vue.use(Avatar).use(Comment).use(Tooltip).use(Menu).use(Pagination)
-.use(Layout).use(Input).use(Affix).use(List).use(Modal).use(Button).use(Dropdown).use(Divider)
+.use(Layout).use(Input).use(Affix).use(List).use(Modal).use(Button).use(Dropdown).use(Divider).use(Form)
 
 Vue.use(VMdPreview).use(store).use(router).mount('#app')

@@ -9,13 +9,17 @@ const routes = [
     children: [      
           {
             path: 'home',
-            component: () => import(/* webpackChunkName: "card_list" */ '../views/card_list.vue')
+            components: {
+              default: () => import(/* webpackChunkName: "card_list" */ '../views/card_list.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
           },
           {
             path: 'article',
             components: {
               default: () => import(/* webpackChunkName: "new_articlie" */ '../views/article.vue'),
-              sider_item: () => import(/* webpackChunkName: "yibu" */ '../views/anchors.vue'),
+              sider_anchors: () => import(/* webpackChunkName: "sider_anchors" */ '../views/anchors.vue'),
             }
             
           },
@@ -39,6 +43,10 @@ const routes = [
             path:'/tags/:cate',
             component: () => import (/* webpackChunkName: "tags_cate" */'../views/tagsarticle.vue'),
           },
+          {
+            path: '/interact',
+            component: () => import(/* webpackChunkName: "friends" */ '../views/friends.vue')
+          },
         ]
       },
 
@@ -46,10 +54,7 @@ const routes = [
         path: '/technology',
         component: () => import(/* webpackChunkName: "tech" */ '../views/technology.vue')
       },
-      {
-        path: '/daily',
-        component: () => import(/* webpackChunkName: "daily" */ '../views/daily.vue')
-      },
+      
       {
         path: '/test',
         component: () => import(/* webpackChunkName: "maodian" */ '../views/test.vue')

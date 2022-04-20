@@ -11,7 +11,7 @@
         <span @click="showSearchmodal()"><img style="height: 3.5vh" src="/search.svg">搜索</span>
         <span @click="handleClick('home')">主页</span>
         <span @click="handleClick('technology')">技术</span>
-        <span @click="handleClick('daily')">随笔</span>
+        <span @click="handleClick('interact')">互动</span>
         <span @click="handleClick('time_line')">归档</span>
         <span v-if="userIsLogin == false" @click="showRegisterModal()">登录</span>
         <a-dropdown v-else>
@@ -105,7 +105,7 @@
         <div class="menu_item">
           <a class="site_page" @click="handleClick('home')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
           <a class="site_page" @click="handleClick('technology')"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
-          <a class="site_page" @click="handleClick('daily')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page" @click="handleClick('interact')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">随便说说</span></a>
           <a class="site_page" @click="handleClick('time_line')"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">文章归档</span></a>
         </div>
       </div>

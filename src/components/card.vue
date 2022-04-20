@@ -67,7 +67,7 @@ export default {
     background: #ffffff70;
     padding: 5px 5px;
     .title{    
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 500;
         line-height: 35px;
         color: @theme-color;
@@ -78,7 +78,7 @@ export default {
         display: flex;
         align-items: center;
         color: #525f7f;
-        font-size: 1rem;
+        font-size: .8rem;
         text-align: left;
         margin-bottom: 5px;
 

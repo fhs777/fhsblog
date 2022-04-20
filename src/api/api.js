@@ -40,4 +40,16 @@ export function getIpName() {
     return http.get('/getIpName')
 }
 
+export function gettest1() {    //死数据-测试接口
+    return http.get('/api/articles/test1')
+}
+
+export function get_friends(param) {    
+    return http.get('/api/friend'+ param)
+}
+
+export function apply_friend(params) {    
+    return http.post('/api/friend_write/', params)
+}
+
 

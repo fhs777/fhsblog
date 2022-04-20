@@ -91,7 +91,7 @@ export default {
 .personal_info {
   text-align: center;
   color: rgb(0, 0, 0);
-  padding: 0 15px;
+  padding: 0 20px;
   min-height: 4vh;
   line-height: 2rem;
   background-color: rgba(255, 255, 255, 0.2);
@@ -110,7 +110,7 @@ export default {
 }
 .imgborder {
   margin-top: 4vh;
-  width: 95px;
+  width: 100px;
   border-radius: 50%;
 }
 

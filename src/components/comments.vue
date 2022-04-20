@@ -152,6 +152,7 @@ export default defineComponent({
           subcomment: [],
         }
         console.log(this.article_id, this.article_title, dayjs().format('YYYY-MM-DD HH:mm:ss'))
+        //console.log('this.edit_comment', this.edit_comment)
 
         comment_write(this.edit_comment).then((res) => {
           console.log(res)
@@ -236,6 +237,7 @@ export default defineComponent({
 }
 
 .comments {
+  text-align: left;
     width: 100%;
 }
 

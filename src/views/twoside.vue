@@ -9,7 +9,9 @@
     
     <div class="sider">
       <personalInfo> </personalInfo>
-      <router-view name="sider_item"></router-view>
+      <router-view name="anchors"></router-view>
+      <router-view name="tagsCloud"></router-view>
+      <router-view name="blogInfo"></router-view>
     </div>
 
   </div>
@@ -106,13 +108,14 @@ export default defineComponent({
 
 
 .sider {
-  flex: 0 3 16vw;
+  flex: 0 0 16vw;
   padding-top: 11vh;
   margin-right: 6vw;
   color: rgb(0, 0, 0);
   min-height: 60vh;
   line-height: 3vh;
   background-color: rgb(255, 255, 255, 0);
+  max-width: 16vw;
 }
 
 .drawer {
