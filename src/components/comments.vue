@@ -79,7 +79,7 @@
 import dayjs from 'dayjs';
 import { defineComponent, } from 'vue';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { get_comments, comment_write } from '../api/api'
+import { get_comments, comment_write, set_articleComments } from '../api/api'
 dayjs.extend(relativeTime);
 
 export default defineComponent({
@@ -91,6 +91,7 @@ export default defineComponent({
         edit_comment: {},
         reply: '',  //回复人
         parent_id: null,  //子评论父级评论id
+        comments_number: 0,
         data1: [
         {
           actions: ['Reply to'],
@@ -158,6 +159,19 @@ export default defineComponent({
           console.log(res)
           if(res.data) {
             alert('评论成功!');
+
+
+            let param = {           //更新文章评论数量
+              article_id: this.article_id,
+              comments: this.comments_number + 1,
+            }
+            set_articleComments(param).then(res => {   
+              console.log('views res', res)
+            }).catch((error) => {
+              console.log(error)
+            })
+
+
           }
           else {
             alert('评论失败');
@@ -208,6 +222,11 @@ export default defineComponent({
       .then(res => {
         this.data1 = (res.data)
         console.log('data1',res.data)
+        let comments_number = 0
+        res.data.forEach(element => {
+          comments_number += element.subcomment.length
+        });
+        this.comments_number = res.data.length + comments_number
       }).catch(error => {
         console.log(error);
       })  

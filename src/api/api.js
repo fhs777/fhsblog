@@ -48,8 +48,22 @@ export function get_friends(param) {
     return http.get('/api/friend'+ param)
 }
 
-export function apply_friend(params) {    
+export function apply_friend(params) {     //申请友链
     return http.post('/api/friend_write/', params)
 }
 
+export function get_bloginfo(param) {   //获取博客基本信息
+    return http.get('/api/bloginfo/' + param)
+}
 
+export function set_articleViews(param) {   //更新博客浏览量
+    return http.post('/api/article_views/' + param.article_id, param)
+}
+
+export function set_articleComments(param) {   //更新博客评论量
+    return http.post('/api/article_comments/' + param.article_id, param)
+}
+
+export function get_about() {
+    return http.get('/api/bloginfo/about')
+}

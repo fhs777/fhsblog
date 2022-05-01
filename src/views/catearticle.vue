@@ -1,12 +1,12 @@
 <template>
 
-  
+  <div class="cardlistContainer">
       <card 
         v-for="content in contents"
         :key="content.index"
         :content="content"></card>
 
-
+  </div>
 </template>
 <script>
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
@@ -43,6 +43,8 @@ export default defineComponent({
         content.category = element.category;
         content.introduction = element.introduction;
         content.post_date = element.post_date;
+        content.last_update = element.last_update;
+        content.tags = element.tags;
         this.contents.push(content)
       });
     },
@@ -56,21 +58,12 @@ export default defineComponent({
 </script>
 <style scoped>
 
-
-
-
-
-
-
-.sider {
-  margin-top: 4vh;
-  margin-right: 12vw;
-  color: rgb(0, 0, 0);
-  min-height: 70vh;
-  line-height: 40px;
-  background: #ffffff;
-  box-shadow: 0px 0px 15px #b3b3b3;
-}
+ .cardlistContainer {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgb(242, 235, 235);
+    box-shadow: white 0px 0px 10px;
+    border-radius: 5px;
+  }
 
 
 

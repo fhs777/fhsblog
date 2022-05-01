@@ -10,7 +10,7 @@
       <div class="menu">
         <span @click="showSearchmodal()"><img style="height: 3.5vh" src="/search.svg">搜索</span>
         <span @click="handleClick('home')">主页</span>
-        <span @click="handleClick('technology')">技术</span>
+        <span @click="handleClick('about')">关于</span>
         <span @click="handleClick('interact')">互动</span>
         <span @click="handleClick('time_line')">归档</span>
         <span v-if="userIsLogin == false" @click="showRegisterModal()">登录</span>

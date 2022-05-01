@@ -9,7 +9,7 @@
     
     <div class="sider">
       <personalInfo> </personalInfo>
-      <router-view name="anchors"></router-view>
+      <router-view name="sider_anchors"></router-view>
       <router-view name="tagsCloud"></router-view>
       <router-view name="blogInfo"></router-view>
     </div>

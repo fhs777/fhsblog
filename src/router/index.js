@@ -16,6 +16,10 @@ const routes = [
             } 
           },
           {
+            path: '/about',
+            component: () => import(/* webpackChunkName: "tech" */ '../views/about.vue')
+          },
+          {
             path: 'article',
             components: {
               default: () => import(/* webpackChunkName: "new_articlie" */ '../views/article.vue'),
@@ -33,7 +37,11 @@ const routes = [
           },
           {
             path:'/category/:cate',
-            component: () => import(/* webpackChunkName: "cate_art" */ '../views/catearticle.vue'),
+            components: {
+              default: () => import(/* webpackChunkName: "cate_art" */ '../views/catearticle.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
           },
           {
             path:'/tags',
@@ -41,7 +49,11 @@ const routes = [
           },
           {
             path:'/tags/:cate',
-            component: () => import (/* webpackChunkName: "tags_cate" */'../views/tagsarticle.vue'),
+            components: {
+              default: () => import (/* webpackChunkName: "tags_cate" */'../views/tagsarticle.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
           },
           {
             path: '/interact',
@@ -50,10 +62,7 @@ const routes = [
         ]
       },
 
-      {
-        path: '/technology',
-        component: () => import(/* webpackChunkName: "tech" */ '../views/technology.vue')
-      },
+      
       
       {
         path: '/test',

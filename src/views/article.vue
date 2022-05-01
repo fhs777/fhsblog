@@ -18,7 +18,7 @@
 </template>
 <script>
 import { defineComponent, defineAsyncComponent } from 'vue';
-import { getarticle } from '../api/api'
+import { getarticle, set_articleViews } from '../api/api'
 import { throttle } from '../utils/index'
 
 //const yibu = () => import('./yibu.vue');
@@ -40,6 +40,8 @@ export default defineComponent({
         category: '',
         title: '',
         tags: ['',''],
+        views: 1,
+        comments: 0,
         lazy_img: null,
 
       },
@@ -134,6 +136,8 @@ export default defineComponent({
             this.article_info.category = res.data.category
             this.article_info.title = res.data.title
             this.article_info.tags = res.data.tags
+            this.article_info.views = res.data.views
+            this.article_info.comments = res.data.comments
 
 
             console.log(res.data)
@@ -177,7 +181,15 @@ export default defineComponent({
 
   beforeUnmount() {
     window.removeEventListener('scroll', this.click, false)
-    
+    let param = {
+      article_id: this.article_id,
+      views: this.article_info.views + 1,
+    }
+    set_articleViews(param).then(res => {   //更新文章浏览次数
+      console.log('views res', res)
+    }).catch((error) => {
+      console.log(error)
+    })
   },
 
 
