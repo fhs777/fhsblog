@@ -1,99 +1,187 @@
 <!DOCTYPE html>
-<html lang="" >
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <style>
+<html lang="">
 
-
-      #loading-container {
-          width: 400px;
-          margin: 10vh auto 0 auto;
-          text-align: center;
-          font-weight: bold;
-          font-size: 1.5rem;
-      }
-    
-      .strip-loading {
-          display: flex;
-          justify-content: center;
-          width: 200px;
-          height: 200px;
-          list-style-type: none;
-      
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <style>
+    .web_bg {
+      /*
+      background: linear-gradient(90deg, rgba(35, 70, 242, 0.042), rgba(0, 78, 179, 0.1) 15%, rgba(40, 40, 223, 0.1) 30%, rgba(99, 148, 185, 0.1) 44%, rgba(80, 115, 184, .1) 58%, rgba(16, 152, 173, .1) 72%, rgba(7, 179, 155, .1) 86%, rgba(109, 145, 186, 0.1));
+      */
     }
-    
-      .inline-container {
-          margin-top: 30px;
-          display: inline-block;
-          text-align: center;
-      }
-    
-      .strip-loading li {
-          --time: calc((var(--line-index) - 1) * 200ms);
-          border-radius: 3px;
-          width: 6px;
-          height: 30px;
-          background-color: #33cc99;
-          animation: beat 1.5s ease-in-out var(--time) infinite;
-          list-style-type: none;
-      }
-    
-      li {
-          margin-left: 2.5px;
-          margin-right: 2.5px;
-      }
-    
-      @keyframes beat {
-          0%,
-          100% {
-              transform: scaleY(1);
-          }
-          50% {
-              transform: scaleY(.5);
-          }
+
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    #loading-container {
+      width: 400px;
+      margin: 10vh auto 0 auto;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .strip-loading {
+      display: flex;
+      justify-content: center;
+      width: 200px;
+      height: 200px;
+      list-style-type: none;
+
+    }
+
+    .inline-container {
+      margin-top: 30px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .strip-loading li {
+      --time: calc((var(--line-index) - 1) * 200ms);
+      border-radius: 3px;
+      width: 6px;
+      height: 30px;
+      background-color: #33cc99;
+      animation: beat 1.5s ease-in-out var(--time) infinite;
+      list-style-type: none;
+    }
+
+    li {
+      margin-left: 2.5px;
+      margin-right: 2.5px;
+    }
+
+    @keyframes beat {
+
+      0%,
+      100% {
+        transform: scaleY(1);
       }
 
-   
-      html{
-        font-size: 16px;
+      50% {
+        transform: scaleY(.5);
       }
+    }
 
-      @media screen and (max-width: 800px) {
-  
-        html{
+
+    html {
+      font-size: 16px;
+    }
+
+    @media screen and (max-width: 800px) {
+
+      html {
         font-size: 14px;
       }
     }
+  </style>
+</head>
 
-
-    </style>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    
-    <div id="app">
-      <div id="loading-container">
-        <span>页面加载中</span><br>
-        <div class="inline-container">
-            <div class="strip-loading"> 
-                <li style="--line-index: 1;"></li>
-                <li style="--line-index: 2;"></li>
-                <li style="--line-index: 3;"></li>
-                <li style="--line-index: 4;"></li>
-                <li style="--line-index: 5;"></li>
-                <li style="--line-index: 6;"></li>
-            </div>
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+  <canvas>111</canvas>
+  <div id="app" class="web_bg">
+    <div id="loading-container">
+      <span>页面加载中</span><br>
+      <div class="inline-container">
+        <div class="strip-loading">
+          <li style="--line-index: 1;"></li>
+          <li style="--line-index: 2;"></li>
+          <li style="--line-index: 3;"></li>
+          <li style="--line-index: 4;"></li>
+          <li style="--line-index: 5;"></li>
+          <li style="--line-index: 6;"></li>
         </div>
       </div>
     </div>
-    <!-- built files will be auto injected -->
-  </body>
+  </div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>
 
 
+<script>
+  // 事件的定义
+  // 如果使用触摸屏，当滚动时，将会阻止事件发生
+  document.addEventListener('touchmove', event => event.preventDefault());
+
+  // 获取canvas画板对象，并进行基础设置的赋值
+  var c = document.getElementsByTagName('canvas')[0],
+    x = c.getContext('2d'),
+    pr = window.devicePixelRatio || 1,
+    w = window.innerWidth,
+    h = window.innerHeight,
+    f = 90,
+    q,
+    m = Math,
+    r = 0,
+    u = m.PI * 2,
+    v = m.cos,
+    z = m.random
+
+  // canvas画板的长宽设置
+  c.width = w * pr
+  c.height = h * pr
+
+  // 对画板里的内容进行放大
+  x.scale(pr, pr)
+  // 图像透明度设置
+  x.globalAlpha = 0.6
+
+  // 清理出空间供绘图使用
+  function i() {
+    x.clearRect(0, 0, w, h)
+    //三角形的起始坐标
+    // f为初始值
+    q = [{ x: 0, y: h * .7 + f }, { x: 0, y: h * .7 - f }]
+    //第二个三角形的横坐标在范围内，就开始绘图
+    while (q[1].x < w + f) d(q[0], q[1])
+  }
+
+  function d(i, j) {
+    // 开始绘画
+    x.beginPath()
+    // 连线两顶点
+    x.moveTo(i.x, i.y)
+    x.lineTo(j.x, j.y)
+
+    // 求取第3个顶点
+    var k = j.x + (z() * 2 - 0.25) * f,
+      n = y(j.y)
+    x.lineTo(k, n)
+    x.closePath()
+    r -= u / -50
+    x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 + 128).toString(16)
+    x.fill()
+    q[0] = q[1]
+    q[1] = { x: k, y: n }
+  }
+
+  function y(p) {
+    var t = p + (z() * 2 - 1.1) * f
+    return (t > h || t < 0) ? y(p) : t
+  }
+
+  document.onclick = i
+  document.ontouchstart = i
+  i()
+
+</script>

@@ -80,6 +80,7 @@ export default ({
   .anchor {
     position: sticky;
     top: 5vh;
+    min-height: 40px;
     margin-top: 2vh;
     width: 100%;
     text-align: left;

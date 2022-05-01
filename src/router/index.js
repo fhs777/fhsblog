@@ -9,13 +9,21 @@ const routes = [
     children: [      
           {
             path: 'home',
-            component: () => import(/* webpackChunkName: "card_list" */ '../views/card_list.vue')
+            components: {
+              default: () => import(/* webpackChunkName: "card_list" */ '../views/card_list.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
+          },
+          {
+            path: '/about',
+            component: () => import(/* webpackChunkName: "tech" */ '../views/about.vue')
           },
           {
             path: 'article',
             components: {
               default: () => import(/* webpackChunkName: "new_articlie" */ '../views/article.vue'),
-              sider_item: () => import(/* webpackChunkName: "yibu" */ '../views/anchors.vue'),
+              sider_anchors: () => import(/* webpackChunkName: "sider_anchors" */ '../views/anchors.vue'),
             }
             
           },
@@ -29,7 +37,11 @@ const routes = [
           },
           {
             path:'/category/:cate',
-            component: () => import(/* webpackChunkName: "cate_art" */ '../views/catearticle.vue'),
+            components: {
+              default: () => import(/* webpackChunkName: "cate_art" */ '../views/catearticle.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
           },
           {
             path:'/tags',
@@ -37,19 +49,21 @@ const routes = [
           },
           {
             path:'/tags/:cate',
-            component: () => import (/* webpackChunkName: "tags_cate" */'../views/tagsarticle.vue'),
+            components: {
+              default: () => import (/* webpackChunkName: "tags_cate" */'../views/tagsarticle.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
+          },
+          {
+            path: '/interact',
+            component: () => import(/* webpackChunkName: "friends" */ '../views/friends.vue')
           },
         ]
       },
 
-      {
-        path: '/technology',
-        component: () => import(/* webpackChunkName: "tech" */ '../views/technology.vue')
-      },
-      {
-        path: '/daily',
-        component: () => import(/* webpackChunkName: "daily" */ '../views/daily.vue')
-      },
+      
+      
       {
         path: '/test',
         component: () => import(/* webpackChunkName: "maodian" */ '../views/test.vue')

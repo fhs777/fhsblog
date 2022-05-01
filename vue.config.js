@@ -1,5 +1,6 @@
 var webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin');
+const path = require('path')
 module.exports = {
     // 公共路径(必须有的)
     publicPath: "/",
@@ -32,6 +33,13 @@ module.exports = {
      ]
    },
 
+   pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, "src/common/variable.less")] // 引入全局样式变量
+    }
+},
+
 
 
 
@@ -44,20 +52,23 @@ module.exports = {
       proxy: {
  
         '/api': {
-         
             //target: 'http://120.27.150.44:3000',
-            target: 'http://localhost:3000',
-            
+            target: 'http://localhost:3000',         
             changeOrigin: true,
-
             ws: true,
-
             pathRewrite: {
-            
-            '^/api': '/api' // /prod-api 替换为空
-            
-            }
-         
+            '^/api': '/api' // /prod-api 替换为空        
+            }      
+        },
+
+        'getIpName': {
+          target: 'http://pv.sohu.com/cityjson',//搜狐的域名
+          ws: true,
+          changOrigin: true,//允许跨域
+          pathRewrite: {
+              '^/getIpName': ''//请求的时候使用这个api就可以
+          }
+
         },
          
         }

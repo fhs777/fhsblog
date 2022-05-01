@@ -49,7 +49,7 @@
             :subcom="subcom"
             :avatar="subcom.avatar"
             :author="subcom.user_name"
-            :datetime="subcom.date +' '+ subcom.date">
+            :datetime="subcom.date">
 
             <template #content>
               <p>
@@ -79,7 +79,7 @@
 import dayjs from 'dayjs';
 import { defineComponent, } from 'vue';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { get_comments, comment_write } from '../api/api'
+import { get_comments, comment_write, set_articleComments } from '../api/api'
 dayjs.extend(relativeTime);
 
 export default defineComponent({
@@ -91,6 +91,7 @@ export default defineComponent({
         edit_comment: {},
         reply: '',  //回复人
         parent_id: null,  //子评论父级评论id
+        comments_number: 0,
         data1: [
         {
           actions: ['Reply to'],
@@ -134,28 +135,46 @@ export default defineComponent({
 
     methods: {
       write_comment(parent_id, reply) {
+        if(!this.loginState) {
+          alert('请先登录');
+          return 
+        }
         this.edit_comment = {
           article_id: this.article_id,
           article_title: this.article_title,
-          user_name: 'qzw',
-          user_id: '888',
+          user_name: this.user_name,
+          user_id: this.user_id,
           date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          address: '广西省桂林市',
-          equipment: 'chrome',
+          address: this.address,
+          equipment: this.equipment,
           content: this.value,
           parent_id: parent_id || null,
           reply: reply || null,
           subcomment: [],
         }
         console.log(this.article_id, this.article_title, dayjs().format('YYYY-MM-DD HH:mm:ss'))
+        //console.log('this.edit_comment', this.edit_comment)
 
         comment_write(this.edit_comment).then((res) => {
           console.log(res)
           if(res.data) {
-            alert('成功!');
+            alert('评论成功!');
+
+
+            let param = {           //更新文章评论数量
+              article_id: this.article_id,
+              comments: this.comments_number + 1,
+            }
+            set_articleComments(param).then(res => {   
+              console.log('views res', res)
+            }).catch((error) => {
+              console.log(error)
+            })
+
+
           }
           else {
-            alert('失败');
+            alert('评论失败');
           }
         }).catch((error) => {
           console.log(error);
@@ -180,11 +199,34 @@ export default defineComponent({
        
     },
 
+    computed: {
+      address() {
+        return this.$store.state.user.address
+      },
+      equipment() {
+        return this.$store.state.user.equipment
+      },
+      user_name() {
+        return this.$store.state.user.user_name
+      },
+      user_id() {
+        return this.$store.state.user.user_id
+      },
+      loginState() {
+        return this.$store.state.user.loginState
+      }
+    },
+
     created() {
       get_comments(this.article_id)
       .then(res => {
         this.data1 = (res.data)
         console.log('data1',res.data)
+        let comments_number = 0
+        res.data.forEach(element => {
+          comments_number += element.subcomment.length
+        });
+        this.comments_number = res.data.length + comments_number
       }).catch(error => {
         console.log(error);
       })  
@@ -214,6 +256,7 @@ export default defineComponent({
 }
 
 .comments {
+  text-align: left;
     width: 100%;
 }
 

@@ -1,11 +1,31 @@
 <template>
-    <div class="card">
-        <p @click="readarticle(content.id)">{{ content.title}}</p>
-        <label>{{ content.introduction }}
-        </label>
-        <div class="footer">
-        <span>{{ content.post_date }}</span>
-        <span class="category">{{ content.category }}</span>
+    <div class="card" @mouseover="mouseOver" @mouseleave="mouseLeave" :class="{ cardActive: isActive }">
+        <div class="title" @click="readarticle(content.id)">{{ content.title}}</div>
+        <div class="updateinfo">
+            <svg t="1650089826536" class="svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8740" width="128" height="128"><path d="M725.333333 170.666667h74.709334C864.853333 170.666667 917.333333 223.189333 917.333333 288.096V799.893333C917.333333 864.757333 864.832 917.333333 800.042667 917.333333H223.957333C159.146667 917.333333 106.666667 864.810667 106.666667 799.904V288.106667C106.666667 223.242667 159.168 170.666667 223.957333 170.666667H298.666667v-32a32 32 0 0 1 64 0v32h298.666666v-32a32 32 0 0 1 64 0v32z m0 64v32a32 32 0 0 1-64 0v-32H362.666667v32a32 32 0 0 1-64 0v-32h-74.709334A53.354667 53.354667 0 0 0 170.666667 288.096V799.893333A53.301333 53.301333 0 0 0 223.957333 853.333333h576.085334A53.354667 53.354667 0 0 0 853.333333 799.904V288.106667A53.301333 53.301333 0 0 0 800.042667 234.666667H725.333333z m-10.666666 224a32 32 0 0 1 0 64H309.333333a32 32 0 0 1 0-64h405.333334zM586.666667 618.666667a32 32 0 0 1 0 64H309.333333a32 32 0 0 1 0-64h277.333334z" p-id="8741"></path></svg>
+            {{ content.post_date }} - 
+            <svg t="1650089826536" class="svg date" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8740" width="128" height="128"><path d="M725.333333 170.666667h74.709334C864.853333 170.666667 917.333333 223.189333 917.333333 288.096V799.893333C917.333333 864.757333 864.832 917.333333 800.042667 917.333333H223.957333C159.146667 917.333333 106.666667 864.810667 106.666667 799.904V288.106667C106.666667 223.242667 159.168 170.666667 223.957333 170.666667H298.666667v-32a32 32 0 0 1 64 0v32h298.666666v-32a32 32 0 0 1 64 0v32z m0 64v32a32 32 0 0 1-64 0v-32H362.666667v32a32 32 0 0 1-64 0v-32h-74.709334A53.354667 53.354667 0 0 0 170.666667 288.096V799.893333A53.301333 53.301333 0 0 0 223.957333 853.333333h576.085334A53.354667 53.354667 0 0 0 853.333333 799.904V288.106667A53.301333 53.301333 0 0 0 800.042667 234.666667H725.333333z m-10.666666 224a32 32 0 0 1 0 64H309.333333a32 32 0 0 1 0-64h405.333334zM586.666667 618.666667a32 32 0 0 1 0 64H309.333333a32 32 0 0 1 0-64h277.333334z" p-id="8741"></path></svg>
+            {{content.last_update}}
+            <svg t="1650090909494" class="svg wordnums" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10418" width="128" height="128"><path d="M853.7 345.6L614.4 106.4c-5.3-5.3-12.4-8.2-19.9-8.2H173.1c-7.8 0-14.1 6.3-14.1 14.1v801.4c0 7.8 6.3 14.1 14.1 14.1H848c7.8 0 14.1-6.3 14.1-14.1V365.5c-0.1-7.4-3.1-14.6-8.4-19.9z m-52.9 514.6H220.2V165.7h376.4v204h204.2v490.5z" p-id="10419"></path><path d="M687 446.6l-58.6 268.5h-68.3L518.6 543c-2.4-8.9-4.1-19.1-4.9-30.5-0.8 13-2.4 23.2-4.9 30.5l-43.9 172.1h-70.8l-58.6-268.5h62.2L428.3 626c0.8 4.1 1.6 11.8 2.4 23.2 0-2.4 0.4 0.4 1.2 8.5h1.2c0.8-9.8 2.4-20.3 4.9-31.7l41.5-179.4h64.7l43.9 181.8c0 1.6 0.4 4.1 1.2 7.3 1.6 9 2.4 16.3 2.4 22h1.2c1.6-12.2 2.8-22.4 3.7-30.5L626 446.6h61z" p-id="10420"></path></svg>
+            {{ (content.words/1000).toFixed(1) + 'k'}}
+            <svg t="1650091468593" class="svg time" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11291" width="128" height="128"><path d="M810.137703 213.860762c-164.388001-164.4187-431.887404-164.4187-596.277452 0-164.417677 164.388001-164.417677 431.889451 0 596.278475 164.390048 164.417677 431.890474 164.417677 596.277452 0C974.557426 645.750213 974.557426 378.248763 810.137703 213.860762zM767.347131 767.345596c-140.797723 140.829446-369.927237 140.797723-510.693238 0-140.828422-140.797723-140.828422-369.895515 0-510.708588 140.767024-140.783397 369.896538-140.813073 510.693238 0C908.14383 397.420405 908.14383 626.578572 767.347131 767.345596z" p-id="11292"></path><path d="M721.450824 521.495258 515.404028 521.495258l0.028653-227.948619c0-15.124466-12.362562-27.458375-27.501354-27.458375s-27.443026 12.33391-27.443026 27.458375l0 235.115855c0 0.835018-1.013073 20.48659 12.094456 34.459836 8.331759 8.809643 20.038382 13.288654 35.148521 13.288654l213.720569 0.031722c15.140839 0 27.472702-12.304234 27.472702-27.474748C748.922503 533.887496 736.620315 521.584286 721.450824 521.495258z" p-id="11293"></path></svg>
+            {{ (content.words/400).toFixed(0) + 'm' }}
+        </div>
+        <div class="articleCover">
+             <img class="imgCover" src='/fengmian.jpg' >
+             
+        </div>
+        <div class="articleInfo">
+            <div class="introduction">
+                {{ content.introduction }}
+            </div>
+            <div class="footer">
+               <svg t="1650092070692" class="svg" viewBox="0 0 1024 850" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15605" width="128" height="128"><path d="M788.48 629.418667c0-17.066667-5.802667-31.744-17.749333-44.714667L421.205333 235.861333c-12.288-12.288-29.354667-22.869333-49.834667-31.744-21.162667-8.874667-39.936-12.970667-57.002667-12.970667L110.933333 191.146667c-17.066667 0-31.744 6.485333-44.032 18.773333-12.288 12.288-18.773333 26.965333-18.773333 44.032l0 202.752c0 17.066667 4.096 36.522667 12.970667 57.002667 8.874667 21.162667 18.773333 37.546667 31.744 49.834667l349.525333 349.525333c12.288 12.288 26.965333 17.749333 44.032 17.749333 17.066667 0 31.744-5.802667 44.714667-17.749333l239.616-239.616C781.994667 661.162667 788.48 646.485333 788.48 629.418667L788.48 629.418667 788.48 629.418667zM248.490667 392.192c-12.288 12.288-26.965333 18.090667-44.032 18.090667-17.066667 0-31.744-5.802667-44.032-18.090667-12.288-12.288-18.090667-26.965333-18.090667-44.032 0-17.066667 5.802667-31.744 18.090667-44.032 12.288-12.288 26.965333-18.090667 44.032-18.090667 17.066667 0 31.744 5.802667 44.032 18.090667C260.778667 316.416 266.24 331.093333 266.24 348.16 267.264 365.568 260.778667 379.904 248.490667 392.192L248.490667 392.192 248.490667 392.192zM958.122667 584.362667 608.597333 235.861333c-12.288-12.288-29.354667-22.869333-49.834667-31.744C537.6 195.242667 518.826667 191.146667 501.76 191.146667l-109.909333 0c17.066667 0 36.522667 4.096 57.002667 12.970667 21.162667 8.874667 37.546667 18.773333 49.834667 31.744l349.525333 348.501333c12.288 12.970667 18.090667 27.648 18.090667 44.714667s-5.802667 31.744-18.090667 44.032l-229.034667 229.717333c9.898667 9.898667 18.773333 17.066667 25.941333 21.845333 7.168 4.778667 17.066667 6.485333 28.672 6.485333 17.066667 0 31.744-5.802667 44.714667-18.090667l239.616-240.298667c12.288-12.288 17.749333-26.965333 17.749333-44.032S970.069333 597.674667 958.122667 584.362667L958.122667 584.362667 958.122667 584.362667zM958.122667 584.362667" p-id="15606"></path></svg>
+                <span v-for="item in content.tags"
+                 :key="item.index"
+                 class="tags">{{ item }}
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -13,65 +33,148 @@
 <script>
 
 export default {
-    methods: {
-        readarticle(id) {
-            console.log(id);
-            this.$router.push({path: '/article',  query: { articleid: id } })
-            
-        }
-    },
     props: {
         content: Object
     },
-    setup() {
-        
+    data() {
+        return {
+            isActive: false,
+        }
     },
+    methods: {
+        readarticle(id) {
+            console.log(id);
+            this.$router.push({path: '/article',  query: { articleid: id } })          
+        },
+        mouseOver() {
+            console.log('mouseOver')
+            this.isActive = true
+        },
+        mouseLeave() {
+            this.isActive = false
+        }
+    },
+    
 }
 </script>
 
-<style scoped>
+<style  lang="less" scoped>
+
 
 .card {
+   
+    margin: 0 0 30px 0;
+    background: #ffffff70;
+    padding: 5px 5px;
+    .title{    
+        font-size: 1.3rem;
+        font-weight: 500;
+        line-height: 35px;
+        color: @theme-color;
+        text-align: left;
+    }
+
+     .updateinfo {
+        display: flex;
+        align-items: center;
+        color: #525f7f;
+        font-size: .8rem;
+        text-align: left;
+        margin-bottom: 5px;
+
+        .svg {
+            margin-right: 4px;
+            margin-top: 2px;
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            color: #525f7f;
+        }
+
+        .date {
+            margin-left: 6px;
+        }
+        .wordnums {
+            margin-left: 12px;
+        }
+
+        .time {
+            margin-left: 12px;
+        }
+    }
+   
+
+    .articleCover {
+       
+        max-height: 260px;
+        overflow: hidden;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .imgCover {
+            width: 100%;
+            
+            //object-position:left center
+
+        }
+    }
+}
+
+.articleInfo {
     display: flex;
     flex-direction: column;
-    text-align: left;
-    margin: 0 0 4vh 0;
-    min-height: 25vh;
-    padding: 20px 20px 12px;
-    background: #ffffff;
-   
-    box-shadow: 0px 0px 15px #b3b3b3;
-    border-radius: 7px;
-    
-}
-
-.card p {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.card p:hover {
     cursor: pointer;
+    text-align: left;
+   
+    /*box-shadow: 0px 0px 15px #b3b3b3;
+    border-radius: 7px;*/
+   
+
+   
+    .introduction {
+        margin-top: 0 ;
+        color: #525f7f;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .footer {
+        text-align: left;
+        margin-top: 2vh;  
+        margin-bottom: 2vh;
+        .tags {
+            font-size: 12px;
+            padding: 5px 10px;
+            background-color: #f3f3f3;
+            color: #32325d;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-right: 10px;    
+        }
+        .svg {
+           
+            margin-right: 2px;
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            color: #525f7f;
+            }
+        }
+
 }
 
-.card label {
-    margin-top: -0.5rem;
-    font-size: 0.8rem;
+.cardActive {
+    box-shadow: 0px 0px 15px 5px #8b888868;
 }
 
-.card .footer {
-    color: rgb(190, 190, 190);
-    margin-top: 1.8rem;
-}
 
-span {
-    margin: 0 0.5rem 0 0;
-}
 
-.category {
-    color:rgb(19, 128, 252);
-    font-weight: bold;
-}
+
+
+
+
 
 
 

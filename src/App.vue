@@ -1,6 +1,6 @@
 <template>
-
-  <a-layout :style="{  minHeight: '100vh' }" >
+  
+  <a-layout :style="{  minHeight: '100vh', backgroundColor: 'transparent' }" >
     <transition name="header">
     <a-layout-header 
     class="header"
@@ -10,11 +10,22 @@
       <div class="menu">
         <span @click="showSearchmodal()"><img style="height: 3.5vh" src="/search.svg">搜索</span>
         <span @click="handleClick('home')">主页</span>
-        <span @click="handleClick('technology')">技术</span>
-        <span @click="handleClick('daily')">随笔</span>
+        <span @click="handleClick('about')">关于</span>
+        <span @click="handleClick('interact')">互动</span>
         <span @click="handleClick('time_line')">归档</span>
-        <span @click="showRegisterModal()">登录</span>
-        <span @click="showSomething()">dd</span>
+        <span v-if="userIsLogin == false" @click="showRegisterModal()">登录</span>
+        <a-dropdown v-else>
+          <a class="ant-dropdown-link" @click.prevent>
+            {{ userName }}
+          </a>
+          <template #overlay>
+            <a-menu @click="userOnClick">
+              <a-menu-item key="logOut"> 
+                退出登录
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
         <span @click="showSearchmodal()" class="s_svg"><img style="height: 5vh" src="/search.svg"></span>
         <span class="s_svg" @click="drawer_show(true)"><img style="height: 5vh" src="/menu.svg"></span>
       </div>
@@ -94,21 +105,21 @@
         <div class="menu_item">
           <a class="site_page" @click="handleClick('home')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">主页</span></a>
           <a class="site_page" @click="handleClick('technology')"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">技术梳理</span></a>
-          <a class="site_page" @click="handleClick('daily')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">随便说说</span></a>
+          <a class="site_page" @click="handleClick('interact')"><img style="height: 24px; margin-top: -2x" src="/search.svg"><span class="drawer_item">随便说说</span></a>
           <a class="site_page" @click="handleClick('time_line')"><img style="height: 24px; margin-top: -2x" src="/menu.svg"><span class="drawer_item">文章归档</span></a>
         </div>
       </div>
 
    <router-view></router-view>
 
-    <a-layout-footer :style="{ textAlign: 'center' }">
+    <a-layout-footer :style="{ textAlign: 'center',  backgroundColor: 'transparent' }">
       fhs Blog ©2021 Created by fhs_7zw
     </a-layout-footer>
   </a-layout>
 
 </template>
 <script>
-import { getarticles, accountSubmit, login } from './api/api'
+import { getarticles, accountSubmit, login, getIpName } from './api/api'
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { message } from 'ant-design-vue';
 import { throttle } from './utils';
@@ -126,9 +137,11 @@ export default defineComponent({
       d_show: false, //控制遮罩显示与否
       d_showcopy: false, //控制遮罩淡入淡出效果
       search_text:'',
+      registerModalStatus: 'login',
       loacle: {
         emptyText: '暂无数据'
-      }
+      },
+      
     }
   },
 
@@ -139,7 +152,6 @@ export default defineComponent({
   setup() { 
     const visible = ref(false);
     const registerModalShow = ref(false); //注册登录弹窗状态控制
-    const registerModalStatus = ref('login');
     const selectedKeys = ref(['1']);
     const submit_account = ref('')  //注册账号
     const submit_password = ref('')  //注册密码
@@ -157,87 +169,20 @@ export default defineComponent({
       registerModalShow.value = false;
     }
 
-    const modalStatusChange = () => { //改变注册登录弹窗显示状态
-      registerModalStatus.value = 'register'
-    }
-
-
-    const submitOrlogin = () => {
-      if( registerModalStatus.value == 'login') {
-        //console.log('login')
-        loginHandleOk();
-      }
-      else {
-        //console.log('reg')
-        submitHandleOk();
-      }
-    }
-
-    const loginHandleOk = () => {
-      let params = {account: submit_account.value, pass: submit_password.value}
-      console.log('params', params);
-      
-      if(params.account && params.pass) {
-        login (params).then(res => {
-          console.log('res', res)
-          if(res.data.code == 1) {
-            message.success('登录成功')
-            submitHandleCancel()
-            submit_account.value = ''
-            submit_password.value = ''
-          }
-          else {
-            message.warning('账号或密码错误，登陆失败');
-          }
-        })
-      }
-      else {
-        message.warning('请将账号信息填写完整');
-      }
-    }
-
-    const submitHandleOk = () => {   //调用注册/登录接口
-      let params = {account: submit_account.value, pass: submit_password.value}
-      console.log('params', params);
-      
-      if(params.account && params.pass) {
-        accountSubmit(params).then(res => {
-          console.log('res', res)
-          if(res.status == 200) {
-            message.success('注册成功')
-            submitHandleCancel()
-            submit_account.value = ''
-            submit_password.value = ''
-          }
-        })
-      }
-      else {
-        message.warning('请将账号信息填写完整');
-      }
-      
-      
-    }
-
     const pagination = {
       pageSize: 5,
     };
 
-
      return {
       visible,
       registerModalShow,
-      registerModalStatus,
       selectedKeys,
       pagination,
       submit_account,
       submit_password,
-      modalStatusChange,
       showSearchmodal,
       showRegisterModal,
       submitHandleCancel,
-      submitHandleOk,
-      loginHandleOk,
-      submitOrlogin,
 
     };
 
@@ -333,9 +278,93 @@ export default defineComponent({
       console.log(this.contents)
     },
 
-    showSomething() {
-      console.log('user状态管理 啊我是')
-      console.log(this.$store.state.user.account)
+
+    submitOrlogin() {
+      if( this.registerModalStatus == 'login') {
+        //console.log('login')
+        this.loginHandleOk();
+      }
+      else {
+        //console.log('reg')
+        this.submitHandleOk();
+      }
+    },
+
+
+    modalStatusChange () { //改变注册登录弹窗显示状态
+      this.registerModalStatus = 'register'
+    },
+
+
+    loginHandleOk() {
+      let params = {account: this.submit_account, pass: this.submit_password}
+      console.log('params', params);
+      
+      if(params.account && params.pass) {
+        login (params).then(res => {
+          console.log('res', res)
+          if(res.data.code == 1) {
+            message.success('登录成功')
+            this.submitHandleCancel()
+            this.submit_account = ''
+            this.submit_password = ''
+
+            let userInfo = {
+              user_name: params.account,
+              user_id: res.data.user_id,
+            }
+
+            window.localStorage.setItem('fhsblogUser', JSON.stringify(userInfo))
+
+            this.$store.commit('user/userInfoSet', userInfo)
+            this.$store.commit('user/loginStateChange', true)
+            
+
+          }
+          else {
+            message.warning('账号或密码错误，登陆失败');
+          }
+        })
+      }
+      else {
+        message.warning('请将账号信息填写完整');
+      }
+    },
+
+
+     submitHandleOk() {   //调用注册/登录接口
+      let params = {account: this.submit_account, pass: this.submit_password}
+      console.log('params', params);
+      
+      if(params.account && params.pass) {
+        accountSubmit(params).then(res => {
+          console.log('res', res)
+          if(res.status == 200) {
+            message.success('注册成功')
+            this.submitHandleCancel()
+            this.submit_account = ''
+            this.submit_password = ''
+
+          }
+        })
+      }
+      else {
+        message.warning('请将账号信息填写完整!');
+      }
+      
+      
+    },
+
+    userOnClick(click) {
+      console.log('user状态管理 啊我是key', click.key)
+      console.log(this.$store.state.user)
+      if(click.key == 'logOut') {
+        this.$store.commit('user/loginStateChange', false)
+        this.$store.commit('user/initUserInfo')
+        window.localStorage.clear()
+        
+      }
+      
     }
 
   },
@@ -344,38 +373,66 @@ export default defineComponent({
     modalStatusIsLogin() {
       return this.registerModalStatus == 'login' 
     },
+    userIsLogin() {
+      return this.$store.state.user.loginState
+    },
+    userName() {
+      return this.$store.state.user.user_name
+    }
   },
 
   created() {
     //console.log('initialize_category1')
    // this.$store.dispatch('initialize_category')
     //window.addEventListener('scroll', throttle(this.headershow),200);
+    let userInfo = JSON.parse(window.localStorage.getItem('fhsblogUser'))
+    if(userInfo) {
+      console.log(111)
+      this.$store.commit('user/userInfoSet', userInfo)
+      this.$store.commit('user/loginStateChange', true)
+    }
+    console.log('userinfo')
+    console.log(userInfo)
   },
 
   mounted() {  //不触发，原因暂时未知
-     console.log('initialize_category1')
+    console.log('initialize_category1')
     this.$store.dispatch('initialize_category')
     window.addEventListener('scroll', throttle(this.headershow,100));
+
+    getIpName().then(res => {  //获取游客设备信息
+      console.log('ipipipip')
+      let result = res.data;
+      let location = result.substring(result.indexOf("{"), result.indexOf("}") +1 );
+      let json = JSON.parse(location)
+     
+      json.cip = json.cip.replace(/\./g, '. ')
+      json.cname = json.cname.replace('省', '省 ')
+      console.log(json)
+      this.$store.commit('user/userIpSet',json.cip)
+      this.$store.commit('user/userAddressSet',json.cname)
+    })
   }
 
  
 });
 </script>
-<style scoped>
+<style lang="less" scoped>
 
 .header {
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   position: fixed;
   z-index: 4;
-  height: 10vh;
+  height: 8vh;
   width: 100%;
   transition: all 0.5s ease 0.1s;
   z-index: 100;
-  box-shadow: 0px 0px 5px  black;
+  box-shadow: 0px 0px 2px  black;
+  //color: white;
 }
 
 .header_fixed {
-  transform: translateY(-10.2vh);
+  transform: translateY(-8.2vh);
 }
 
 
@@ -392,13 +449,13 @@ export default defineComponent({
   font-size: 0.95rem;
   float: right;
   position: relative;
-  line-height: 10vh;
+  line-height: 8vh;
   
 }
 
 .menu > span {
   display: inline-block;
-  height: 10vh - 2px;
+  height: 8vh - 2px;
   margin: 0 1vw 0 1vw;
   cursor: pointer;
 }
@@ -515,7 +572,7 @@ export default defineComponent({
     .menu > .s_svg {
       display: unset;
       display: inline-block;
-      height: 10vh - 2px;
+      height: 8vh - 2px;
       margin: 0 1vw 0 1vw;
       cursor: pointer;
 

@@ -9,7 +9,9 @@
     
     <div class="sider">
       <personalInfo> </personalInfo>
-      <router-view name="sider_item"></router-view>
+      <router-view name="sider_anchors"></router-view>
+      <router-view name="tagsCloud"></router-view>
+      <router-view name="blogInfo"></router-view>
     </div>
 
   </div>
@@ -18,9 +20,6 @@
 <script>
 import { defineComponent, ref, defineAsyncComponent } from 'vue';
 import { getarticles } from '../api/api'
-
-
-
 
 const personalInfo = defineAsyncComponent(() => import('../components/personalInfo.vue'))
 
@@ -91,30 +90,32 @@ export default defineComponent({
 .main_container {
   display: flex;
   flex-wrap: nowrap;
-
 }
 
 .laycontent {
   text-align: center;
   flex: 0 5 70vw;
   width: 100%;
-  padding: 8vh 4vw 2vh 10vw;
-  margin-top: 8vh ;
+  margin-right: 1vw;
+  padding: 0vh 0.5vw 2vh 14vw;
+  margin-top: 11vh ;
   min-height: 100%;
-  background: rgb(244, 244, 244);
+
+ 
  
 }
 
 
 
 .sider {
-  flex: 0 3 18vw;
-  padding-top: 16vh;
+  flex: 0 0 16vw;
+  padding-top: 11vh;
   margin-right: 6vw;
   color: rgb(0, 0, 0);
   min-height: 60vh;
   line-height: 3vh;
-  background-color: rgb(244, 244, 244);
+  background-color: rgb(255, 255, 255, 0);
+  max-width: 16vw;
 }
 
 .drawer {
@@ -162,7 +163,7 @@ img {
 
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
   
     .sider {
       display: none;
