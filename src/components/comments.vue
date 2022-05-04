@@ -150,11 +150,11 @@ export default defineComponent({
           content: this.value,
           parent_id: parent_id || null,
           reply: reply || null,
+          avatar: this.user_qq,
           subcomment: [],
         }
-        console.log(this.article_id, this.article_title, dayjs().format('YYYY-MM-DD HH:mm:ss'))
-        //console.log('this.edit_comment', this.edit_comment)
-
+        //console.log(this.article_id, this.article_title, dayjs().format('YYYY-MM-DD HH:mm:ss'))
+        console.log('this.edit_comment', this.edit_comment)
         comment_write(this.edit_comment).then((res) => {
           console.log(res)
           if(res.data) {
@@ -211,6 +211,9 @@ export default defineComponent({
       },
       user_id() {
         return this.$store.state.user.user_id
+      },
+      user_qq() {
+        return this.$store.state.user.user_qq ?  'https://q1.qlogo.cn/g?b=qq&nk='+this.$store.state.user.user_qq+'&s=100' : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
       },
       loginState() {
         return this.$store.state.user.loginState

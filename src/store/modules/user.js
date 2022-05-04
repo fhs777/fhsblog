@@ -9,6 +9,7 @@ export const user = {
       user_ip: '',
       address: '',
       equipment: '',
+      user_qq: '',
 
     }),
 
@@ -20,6 +21,7 @@ export const user = {
       userInfoSet(state, params) {
         state.user_name = params.user_name
         state.user_id = params.user_id  
+        state.user_qq = params.user_qq
       },
 
       userIpSet(state, ip) {
@@ -43,6 +45,7 @@ export const user = {
         state.user_id= ''
         state.address= ''
         state.equipment= ''
+        state.user_qq= ''
       }
     }
     

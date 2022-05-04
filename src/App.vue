@@ -80,19 +80,26 @@
         </div>
       </template> 
 
-        <p style="margin-bottom: 15px;">
+        <p style="margin-bottom: 10px;">
           <input 
           class="submit_class" 
           type="text" 
           placeholder="账号"
           v-model="submit_account">
         </p>
-        <p style="margin-bottom: 5px;">
+        <p style="margin-bottom: 10px;">
           <input 
           class="submit_class" 
           type="text" 
           placeholder="密码"
           v-model="submit_password">
+        </p>
+        <p v-if="!modalStatusIsLogin" style="margin-bottom: 5px;">
+          <input 
+          class="submit_class" 
+          type="text" 
+          placeholder="qq号(可选，用于获取头像)"
+          v-model="submit_qq">
         </p>
     </a-modal>
 
@@ -155,6 +162,7 @@ export default defineComponent({
     const selectedKeys = ref(['1']);
     const submit_account = ref('')  //注册账号
     const submit_password = ref('')  //注册密码
+    const submit_qq = ref('')  //注册密码
 
     const showSearchmodal = () => {
       visible.value = true;
@@ -180,6 +188,7 @@ export default defineComponent({
       pagination,
       submit_account,
       submit_password,
+      submit_qq,
       showSearchmodal,
       showRegisterModal,
       submitHandleCancel,
@@ -208,7 +217,15 @@ export default defineComponent({
 
       header_show(newState) {
         this.$store.commit('change_headershow',newState)
+      },
+
+
+      registerModalShow(now) {
+        if(now == false) {
+          this.registerModalStatus = 'login'
+        }
       }
+
 },
 
   methods: {
@@ -312,6 +329,7 @@ export default defineComponent({
             let userInfo = {
               user_name: params.account,
               user_id: res.data.user_id,
+              user_qq: res.data.user_qq
             }
 
             window.localStorage.setItem('fhsblogUser', JSON.stringify(userInfo))
@@ -333,7 +351,7 @@ export default defineComponent({
 
 
      submitHandleOk() {   //调用注册/登录接口
-      let params = {account: this.submit_account, pass: this.submit_password}
+      let params = {account: this.submit_account, pass: this.submit_password, qq: this.submit_qq}
       console.log('params', params);
       
       if(params.account && params.pass) {
@@ -380,6 +398,8 @@ export default defineComponent({
       return this.$store.state.user.user_name
     }
   },
+
+
 
   created() {
     //console.log('initialize_category1')
