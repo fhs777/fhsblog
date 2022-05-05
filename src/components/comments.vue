@@ -19,7 +19,7 @@
     <div class="comments">
     <a-list
         class="comment-list"
-        :header="`${this.data1.length} replies`"
+        :header="`${this.comments_number} replies`"
         item-layout="horizontal"
         :data-source="this.data1"
     >

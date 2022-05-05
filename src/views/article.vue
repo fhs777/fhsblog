@@ -9,7 +9,7 @@
         <v-md-preview :text="text" ref="preview" style="font-size = 1rem" ></v-md-preview>
 
         <!--<div id="vcomments"></div>-->
-        <comment :article_id = "article_id" :article_title = "article_info.title"></comment>
+        <comment  :article_id = "article_id" :article_title = "article_info.title"></comment>
       </div>
 
 
@@ -107,9 +107,7 @@ export default defineComponent({
 
     aa() {
       throttle(this.imgLazyLoad, 100)
-    }
-
-
+    },
 
     
   },

@@ -85,10 +85,10 @@ export default {
         .svg {
             margin-right: 4px;
             margin-top: 2px;
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-            color: #525f7f;
+                width: 16px;
+                height: 16px;
+                fill: currentColor;
+                color: #525f7f;
         }
 
         .date {
