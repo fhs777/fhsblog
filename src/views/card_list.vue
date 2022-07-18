@@ -49,6 +49,7 @@ export default {
         content.last_update = element.last_update;
         content.tags = element.tags;
         content.words = element.words
+        content.image = element.image
         this.contents.push(content)
 
         timeline.id = element._id;

@@ -5,7 +5,7 @@
     <a-layout-header 
     class="header"
     :class="{header_fixed: header_show}">
-    <div class="logo"></div>
+    <div class="logo">小七博客</div>
 
       <div class="menu">
         <span @click="showSearchmodal()"><img style="height: 3.5vh" src="/search.svg">搜索</span>
@@ -90,7 +90,7 @@
         <p style="margin-bottom: 10px;">
           <input 
           class="submit_class" 
-          type="text" 
+          type="password" 
           placeholder="密码"
           v-model="submit_password">
         </p>
@@ -240,7 +240,7 @@ export default defineComponent({
 
     readarticle(id) {
         console.log(id);
-        //this.$router.push({path: '/article',  query: { articleid: id } })
+        this.$router.push({path: '/article',  query: { articleid: id } })
             
     },
 
@@ -413,6 +413,7 @@ export default defineComponent({
     }
     console.log('userinfo')
     console.log(userInfo)
+     
   },
 
   mounted() {  //不触发，原因暂时未知
@@ -432,6 +433,7 @@ export default defineComponent({
       this.$store.commit('user/userIpSet',json.cip)
       this.$store.commit('user/userAddressSet',json.cname)
     })
+    
   }
 
  
@@ -618,9 +620,12 @@ export default defineComponent({
  .logo {
   width: 120px;
   height: 31px;
-  background: rgb(252, 11, 11);
   margin: 16px 0 16px 0;
   display: inline-block;
+  line-height: 31px;
+  font-size: 24px;
+  font-weight: bold;
+  color: @theme-color;
 }
 
 

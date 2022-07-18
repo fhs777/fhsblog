@@ -6,7 +6,15 @@ const routes = [
     path: '/',
     name: 'def',
     component: () => import(/* webpackChunkName: "home" */ '../views/twoside.vue'),
-    children: [      
+    children: [
+          {
+            path: '/',
+            components: {
+              default: () => import(/* webpackChunkName: "card_list" */ '../views/card_list.vue'),
+              blogInfo: () => import(/* webpackChunkName: "bloginfo" */ '../components/blogInfo.vue'),
+              tagsCloud: () => import(/* webpackChunkName: "tagsCloud" */ '../components/tagsCloud.vue'),
+            } 
+          },      
           {
             path: 'home',
             components: {

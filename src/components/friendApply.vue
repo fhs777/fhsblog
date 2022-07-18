@@ -13,14 +13,14 @@
     <a-form-item has-feedback label="网站名称" name="name">
       <a-input v-model:value="formState.name" type="text" autocomplete="off" />
     </a-form-item>
-    <a-form-item has-feedback label="网站地址" name="url">
-      <a-input v-model:value="formState.url" type="text" autocomplete="off" />
+    <a-form-item has-feedback label="网站地址" name="website">
+      <a-input v-model:value="formState.website" type="text" autocomplete="off" />
     </a-form-item>
     <a-form-item has-feedback label="网站介绍" name="words">
       <a-input v-model:value="formState.words" type="text" autocomplete="off" />
     </a-form-item>
-    <a-form-item has-feedback label="网站logo" name="logo">
-      <a-input v-model:value="formState.logo" type="text" autocomplete="off" />
+    <a-form-item has-feedback label="网站logo" name="avater">
+      <a-input v-model:value="formState.avater" type="text" autocomplete="off" />
     </a-form-item>
     <a-form-item has-feedback label="您的邮箱" name="email">
       <a-input v-model:value="formState.email" type="text" autocomplete="off" />
@@ -36,14 +36,15 @@
 <script>
 import { apply_friend } from '../api/api'
 import { reactive, ref } from 'vue';
+import { message } from "ant-design-vue";
 export default {
    setup() {
     const formRef = ref();
     const formState = reactive({
       name: '',
-      url: '',
+      website: '',
       words: '',
-      logo: '',
+      avater: '',
       email: '',
     });
 
@@ -57,7 +58,7 @@ export default {
       }
     };
 
-    let validateUrl = async (_rule, value) => {
+    let validateWebsite = async (_rule, value) => {
       if (value === '') {
         return Promise.reject('网站地址不能为空');
       } else {  
@@ -93,9 +94,9 @@ export default {
     };
 
     const rules = {
-      url: [{
+      website: [{
         required: true,
-        validator: validateUrl,
+        validator: validateWebsite,
         trigger: 'change',
       }],
       words: [{
@@ -108,7 +109,7 @@ export default {
         validator: checkName,
         trigger: 'change',
       }],
-      logo: [{
+      avatar: [{
         required: true,
         validator: checkLogo,
         trigger: 'change',
@@ -167,7 +168,11 @@ export default {
         name: this.formState.name,
       }
       apply_friend(parmas).then(res => {
+        message.success('申请成功')
+        this.resetForm()
         console.log(res)
+      }).catch(() => {
+        message.error('申请失败')
       })
     },
   },

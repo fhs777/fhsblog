@@ -80,6 +80,7 @@ import dayjs from 'dayjs';
 import { defineComponent, } from 'vue';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { get_comments, comment_write, set_articleComments } from '../api/api'
+import { message } from "ant-design-vue";
 dayjs.extend(relativeTime);
 
 export default defineComponent({
@@ -139,6 +140,10 @@ export default defineComponent({
           alert('请先登录');
           return 
         }
+        if(this.value == '') {
+          message.info('评论内容不可为空')
+          return 
+        }
         this.edit_comment = {
           article_id: this.article_id,
           article_title: this.article_title,
@@ -158,8 +163,8 @@ export default defineComponent({
         comment_write(this.edit_comment).then((res) => {
           console.log(res)
           if(res.data) {
-            alert('评论成功!');
-
+            message.success('评论成功')
+            this.value = '';
 
             let param = {           //更新文章评论数量
               article_id: this.article_id,
@@ -170,13 +175,14 @@ export default defineComponent({
             }).catch((error) => {
               console.log(error)
             })
-
+            this.get_comment()
 
           }
           else {
             alert('评论失败');
           }
         }).catch((error) => {
+          message.error('评论失败')
           console.log(error);
         })
         this.edit_comment = {}
@@ -195,6 +201,21 @@ export default defineComponent({
         this.write_comment(this.parent_id, this.reply)
          this.reply = null
         this.parent_id = null
+      },
+
+      get_comment() {
+        get_comments(this.article_id)
+        .then(res => {
+          this.data1 = (res.data)
+          console.log('data1',res.data)
+          let comments_number = 0
+          res.data.forEach(element => {
+            comments_number += element.subcomment.length
+          });
+          this.comments_number = res.data.length + comments_number
+        }).catch(error => {
+          console.log(error);
+        }) 
       }
        
     },
@@ -221,18 +242,7 @@ export default defineComponent({
     },
 
     created() {
-      get_comments(this.article_id)
-      .then(res => {
-        this.data1 = (res.data)
-        console.log('data1',res.data)
-        let comments_number = 0
-        res.data.forEach(element => {
-          comments_number += element.subcomment.length
-        });
-        this.comments_number = res.data.length + comments_number
-      }).catch(error => {
-        console.log(error);
-      })  
+      this.get_comment()
       
     }
 

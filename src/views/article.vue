@@ -143,7 +143,7 @@ export default defineComponent({
               this.imgList = [...this.$refs.preview.$el.querySelectorAll('img')].slice(4);
               this.imgcount = this.imgList.length
               console.log(this.imgcount)
-              //console.log(this.imgList)
+              console.log('this.imgList', this.imgList)
               const anchors = this.$refs.preview.$el.querySelectorAll('h2');
               //console.log(anchors)
               const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());

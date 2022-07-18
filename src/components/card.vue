@@ -12,7 +12,7 @@
             {{ (content.words/400).toFixed(0) + 'm' }}
         </div>
         <div class="articleCover">
-             <img class="imgCover" src='/fengmian.jpg' >
+             <img class="imgCover" :src="getAvatar()" :onerror="errorImage" >
              
         </div>
         <div class="articleInfo">
@@ -44,6 +44,7 @@ export default {
     methods: {
         readarticle(id) {
             console.log(id);
+            console.log('content', this.content);
             this.$router.push({path: '/article',  query: { articleid: id } })          
         },
         mouseOver() {
@@ -52,7 +53,15 @@ export default {
         },
         mouseLeave() {
             this.isActive = false
+        },
+        getAvatar() {
+            return this.content.image
         }
+        ,
+        errorImage(e) {
+            console.log('error!!!!!!!!!!!!',e)
+            e.target.src = "fengmian.jpg"
+        },
     },
     
 }

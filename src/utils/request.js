@@ -73,7 +73,7 @@ service.interceptors.response.use(response => {
     }
 
     alert(error.message)
-    return Promise.resolve(error.message)
+    return Promise.reject(error.message)
 })
 
 export default service

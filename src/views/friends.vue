@@ -3,11 +3,13 @@
         <h1>友情链接</h1>
         <h3>顺序随机，不分先后</h3>
         <hr class="partline">
-        <friend 
-            v-for="item in friends"
-            :key ="item.index"
-            :friendInfo = item>
-        </friend>
+        <div class="friendsBox">
+            <friend 
+                v-for="item in friends"
+                :key ="item.index"
+                :friendInfo = item>
+            </friend>
+        </div>
 
 
         <friendApply></friendApply>
@@ -68,6 +70,10 @@ export default {
         box-shadow: white 0px 0px 10px;
         border-radius: 5px;
         padding: 0 30px 30px;
+
+        .friendsBox {
+            text-align: left;
+        }
 
         .personalInfo {
             margin-top: 100px;
